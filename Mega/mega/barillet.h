@@ -1,12 +1,14 @@
 #ifndef BARILLET_INCLUDED
 #define BARILLET_INCLUDED
 #include "PID.h"
+#include "Codeuse.h"
 
 class barillet
 {
 	public:
 	
 	barillet();
+  Codeuse codeuseBarillet;
 	PID pidBarillet;
 	int get_pos();	// obtenir position actuelle
 	void set_pos(int pos);	// aller à la position souhaité
