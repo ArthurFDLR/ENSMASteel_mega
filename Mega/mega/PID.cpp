@@ -4,17 +4,25 @@
 
 float normalize(float x)
 {
-  //TODO   Doit renvoyer un x entre -PI et PI
-  return 1;
+	//TODO   Doit renvoyer un x entre -PI et PI
+	if (x > PI)
+	{
+		return x - (int)(x/PI) * PI;
+	}
+	else if (PI < -PI)
+	{
+		return x + (int)(x / PI) * PI;
+	}
+	return x;
 }
 
 float PID::compute(float dt,float aim,float pos,float dPosRaw)
 {
-      float error=(needNormalizing)?(normalize(aim-pos)):(aim-pos);
-      dPosFiltered.in(dPosRaw,dt);
-      I+=error*dt;
-      float order=constrain(KP*error + KI*I - KD*dPosFiltered.out(),-MAXPWM , MAXPWM);
-      return ((int32_t)order );
+  float error=(needNormalizing)?(normalize(aim-pos)):(aim-pos);
+  dPosFiltered.in(dPosRaw,dt);
+  I+=error*dt;
+  float order=constrain(KP*error + KI*I - KD*dPosFiltered.out(),-MAXPWM , MAXPWM);
+  return ((int32_t)order );
 }
 
 PID::PID(bool needNormalizing, float KP, float KI, float KD,float cutFrequency,float initValue)
@@ -23,4 +31,8 @@ PID::PID(bool needNormalizing, float KP, float KI, float KD,float cutFrequency,f
   this->I=0;
   this->KP=KP;this->KI=KI;this->KD=KD;
   this->dPosFiltered=*(new Filtre(initValue,cutFrequency,LOWPASS2));
+}
+
+PID::PID()
+{
 }

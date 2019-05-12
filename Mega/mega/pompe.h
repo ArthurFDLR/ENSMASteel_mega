@@ -4,12 +4,9 @@
 class pompe
 {
   public:
-  
-  pompe();
-  
-  void take(); // prendre un pallet
-  void release(); // lacher le pallet
-  
+	  pompe();
+	  void take(); // prendre un pallet
+	  void release(); // lacher le pallet
   
   private:
   

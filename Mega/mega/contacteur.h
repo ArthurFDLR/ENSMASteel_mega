@@ -7,9 +7,9 @@ class contacteur
   uint8_t pin;
   
   public:
-  contacteur(uint8_t pin);
-  contacteur();
-  bool isPressed();
+	  contacteur(uint8_t pin);
+	  contacteur();
+	  bool isPressed();
 };
 
 

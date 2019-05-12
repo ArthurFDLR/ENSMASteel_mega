@@ -12,23 +12,22 @@ enum state_elev {UP,DOWN};
 
 class elevator
 {
-  
   private:
-  state_elev state;
-  float pos,aim;
-  contacteur *contacteurHaut;
-  contacteur *contacteurBas;
-  Codeuse *codeuseElevator;
-  PID *pidElevator;
+	  state_elev state;
+	  float pos,aim;
+	  contacteur *contacteurHaut;
+	  contacteur *contacteurBas;
+	  Codeuse *codeuseElevator;
+	  PID *pidElevator;
 
   public:
   
-  elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos);
-  elevator();
+	  elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos);
+	  elevator();
   
-  void up(); // faire monter les ventouses
-  void down(); // faire descendre les ventouses
-  bool init();
+	  void up(); // faire monter les ventouses
+	  void down(); // faire descendre les ventouses
+	  bool init();
 };
 
 #endif

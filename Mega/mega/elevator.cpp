@@ -19,6 +19,14 @@ elevator::elevator()
   
 }
 
+void elevator::up()
+{
+}
+
+void elevator::down()
+{
+}
+
 bool elevator::init()
 {
   float t=millis();
