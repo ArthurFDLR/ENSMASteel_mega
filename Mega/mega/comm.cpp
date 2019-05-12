@@ -1,4 +1,4 @@
-#include "comm.h"
+#include "Comm.h"
 
 Comm::Comm()
 {

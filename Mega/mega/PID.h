@@ -3,7 +3,7 @@
 
 #include "Filtre.h"
 
-float normalize(float x);
+float Normalize(float x);
 
 class PID
 {

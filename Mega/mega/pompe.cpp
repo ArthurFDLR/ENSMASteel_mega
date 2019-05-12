@@ -1,13 +1,13 @@
 #include "pompe.h"
 
-pompe::pompe()
+Pompe::Pompe()
 {
 }
 
-void pompe::take()
+void Pompe::Take()
 {
 }
 
-void pompe::release()
+void Pompe::Release()
 {
 }

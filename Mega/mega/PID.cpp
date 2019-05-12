@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #define MAXPWM 255
 
-float normalize(float x)
+float Normalize(float x)
 {
 	//TODO   Doit renvoyer un x entre -PI et PI
 	if (x > PI)
@@ -18,7 +18,7 @@ float normalize(float x)
 
 float PID::compute(float dt,float aim,float pos,float dPosRaw)
 {
-  float error=(needNormalizing)?(normalize(aim-pos)):(aim-pos);
+  float error=(needNormalizing)?(Normalize(aim-pos)):(aim-pos);
   dPosFiltered.in(dPosRaw,dt);
   I+=error*dt;
   float order=constrain(KP*error + KI*I - KD*dPosFiltered.out(),-MAXPWM , MAXPWM);

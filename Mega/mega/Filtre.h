@@ -1,8 +1,7 @@
 #ifndef FILTRE_INCLUDED
 #define FILTRE_INCLUDED
 #include "Arduino.h"
-
-enum typeFiltreE{PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
+#include "1_CONSTANTS.h"
 
 class Filtre
 {                                
