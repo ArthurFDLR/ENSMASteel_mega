@@ -1,4 +1,3 @@
-
 #include "MegaServo.h"
 #include "CONSTANT.h"
 #include "Barillet.h"
@@ -17,5 +16,5 @@ void setup()
 }
 
 void loop() {
-  
+
 }

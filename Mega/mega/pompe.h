@@ -1,15 +1,12 @@
 #ifndef POMPE_INCLUDED
 #define POMPE_INCLUDED
 
-class pompe
+class Pompe
 {
   public:
-  
-  pompe();
-  
-  void take(); // prendre un pallet
-  void release(); // lacher le pallet
-  
+	  Pompe();
+	  void Take(); // prendre un pallet
+	  void Release(); // lacher le pallet
   
   private:
   

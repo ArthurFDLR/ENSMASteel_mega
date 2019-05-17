@@ -1,11 +1,9 @@
-#include "elevator.h"
+#include "Elevator.h"
 #include "contacteur.h"
 #include "Codeuse.h"
 #include "PID.h"
 
-
-
-elevator::elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos)
+Elevator::Elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos)
 {
   contacteurHaut=new contacteur(pinContacteurHaut);
   contacteurBas=new contacteur(pinContacteurBas);
@@ -14,12 +12,20 @@ elevator::elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t p
   pidElevator=new PID(false, 42, 24, 12, 50, 0);
 }
 
-elevator::elevator()
+Elevator::Elevator()
 {
   
 }
 
-bool elevator::init()
+void Elevator::up()
+{
+}
+
+void Elevator::down()
+{
+}
+
+bool Elevator::init()
 {
   float t=millis();
   float tIni=t;

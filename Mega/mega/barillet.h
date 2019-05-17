@@ -2,20 +2,24 @@
 #define BARILLET_INCLUDED
 #include "PID.h"
 #include "Codeuse.h"
-#include "Filtre.h"
+#include "1_CONSTANTS.h"
+#include "FILO.h"
 
 class Barillet
 {
 	public:
-	
+
 	Barillet(uint8_t pin_codeuse_A,uint8_t pin_codeuse_B,uint8_t pin_sens,uint8_t pin_pwr);
   Codeuse *codeuseBarillet;
 	PID *pidBarillet;
 	int get_angle();
 	void set_angle(float angle);
 	void turn(float angle);
-	
-	
+	FILO trous[6];
+  Barillet();
+  void AddPalet(int trouId, PaletE couleur);
+  void Actuate(float dT);
+  
 	private:
 	
 	float angle;
