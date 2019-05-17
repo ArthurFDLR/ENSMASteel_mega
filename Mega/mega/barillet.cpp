@@ -1,8 +1,8 @@
-#include "barillet.h"
+#include "Barillet.h"
 #include "Arduino.h"
 
-barillet::barillet()
+Barillet::Barillet(uint8_t pin_codeuse_A,uint8_t pin_codeuse_B,uint8_t pin_sens,uint8_t pin_pwr)
 {
-  pidBarillet=new PID(true,500,20,50,20,0);
-  codeuseBarillet=new Codeuse(11,12,PI*0.4/11500.0);
+  pidBarillet=new PID(true,0,0,50,100,0);
+  codeuseBarillet=new Codeuse(pin_codeuse_A,pin_codeuse_B,0.0007469789);
 }

@@ -1,9 +1,21 @@
-void setup() {
-  // put your setup code here, to run once:
 
+#include "MegaServo.h"
+#include "CONSTANT.h"
+#include "Barillet.h"
+
+
+MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit,pinceGauche,pinceDroite;
+
+void setup() 
+{
+  brasGauche=MegaServo(BRAS_GAUCHE_PIN,BRAS_GAUCHE_RETRACTED,BRAS_GAUCHE_HALF,BRAS_GAUCHE_EXTENDED);
+  brasDroit=MegaServo(BRAS_DROIT_PIN,BRAS_DROIT_RETRACTED,BRAS_DROIT_HALF,BRAS_DROIT_EXTENDED);
+  doigtGauche=MegaServo(DOIGT_GAUCHE_PIN,DOIGT_GAUCHE_RETRACTED,DOIGT_GAUCHE_HALF,DOIGT_GAUCHE_EXTENDED);
+  doigtDroit=MegaServo(DOIGT_DROIT_PIN,DOIGT_DROIT_RETRACTED,DOIGT_DROIT_HALF,DOIGT_DROIT_EXTENDED);
+  pinceGauche=MegaServo(PINCE_GAUCHE_PIN,PINCE_GAUCHE_RETRACTED,PINCE_GAUCHE_HALF,PINCE_GAUCHE_EXTENDED);
+  pinceDroite=MegaServo(PINCE_DROITE_PIN,PINCE_DROITE_RETRACTED,PINCE_DROITE_HALF,PINCE_DROITE_EXTENDED);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  
 }
