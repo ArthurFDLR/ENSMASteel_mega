@@ -1,16 +1,16 @@
-#include "contacteur.h"
+#include "Contacteur.h"
 
-contacteur::contacteur(uint8_t pin)
+Contacteur::Contacteur(uint8_t pin)
 {
   this->pin=pin;
-  pinMode(pin,INPUT_PULLUP);
+  pinMode(pin,INPUT);
 }
 
-contacteur::contacteur()
+Contacteur::Contacteur()
 {
 }
 
-bool contacteur::isPressed()
+bool Contacteur::isPressed()
 {
 	return digitalRead(pin);
 }

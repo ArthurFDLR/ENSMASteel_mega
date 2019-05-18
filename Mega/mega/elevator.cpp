@@ -1,46 +1,46 @@
 #include "Elevator.h"
-#include "contacteur.h"
+#include "Contacteur.h"
 #include "Codeuse.h"
 #include "PID.h"
-
-Elevator::Elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos)
+#include "Moteur.h"
+Elevator::Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake)
 {
-  contacteurHaut=new contacteur(pinContacteurHaut);
-  contacteurBas=new contacteur(pinContacteurBas);
+  moteurElevator=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake,1.0);
+  contacteurElevator=new Contacteur(pinContacteur);
   codeuseElevator=new Codeuse(pin1Codeuse,pin2Codeuse,tickToPos);
-  pos=0,aim=0;
+  aim=0;
   pidElevator=new PID(false, 42, 24, 12, 50, 0);
 }
 
 Elevator::Elevator()
 {
-  
+
 }
 
-void Elevator::up()
+void Elevator::actuate(float dt)
 {
+    codeuseElevator->actuate(dt);
+    moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
+    moteurElevator->actuate();
 }
 
-void Elevator::down()
-{
-}
 
 bool Elevator::init()
 {
   float t=millis();
   float tIni=t;
-  while (!contacteurHaut->isPressed() and t-tIni<10000)
+  while (!contacteurElevator->isPressed() and t-tIni<10000)
   {
     t=millis();
-    aim=0.1*t/1000.0;   //On fait monter l'elevator doucement
-    //moteurElevator->setOrder(pidElevator->compute(0.001,aim,codeuseElevator->pos,codeuseElevator->dPos));   //TODO, creer la classe moteur et en instancier un pour l'elevator
+    aim= -0.1*t/1000.0;   //On fait descendre l'elevator doucement
+    actuate(0.001);
     delayMicroseconds(1000);
   }
   if (t-tIni>10000)return false;
   else
   {
-    pos=LONGUEUR_COURSE;
-    aim=LONGUEUR_COURSE;
+    codeuseElevator->pos=0.0;
+    aim=0.0;
     return true;
   }
 }

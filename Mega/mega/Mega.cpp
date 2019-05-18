@@ -1,9 +1,10 @@
 #include "Mega.h"
 
-void Mega::actuate(float dT)
+void Mega::actuate(float dt)
 {
 	//barillet.Actuate(dT);
 	pinces.actuate();
+	elevator.actuate(dt);
 }
 Mega::Mega()
 {

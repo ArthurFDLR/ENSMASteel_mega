@@ -1,8 +1,8 @@
 #ifndef MEGA_INCLUDED
 #define MEGA_INCLUDED
 #include "Barillet.h"
-#include "pompe.h"
-#include "elevator.h"
+#include "Pompe.h"
+#include "Elevator.h"
 #include "MegaServo.h"
 #include "1_CONSTANTS.h"
 #include "Pinces.h"
@@ -15,7 +15,7 @@ public:
     MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
     Pinces pinces;
 
-	void actuate(float dT);
+	void actuate(float dt);
 	Mega();
     Mega(float x);
 	~Mega();

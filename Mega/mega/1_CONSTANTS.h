@@ -74,6 +74,7 @@ enum ElevatorStateE
 	Moving, Up, Down
 };
 
+#define MAXPWM 255
 // --------------------------------- Bras ---------------------------------
 
 #endif // !CONSTANTS

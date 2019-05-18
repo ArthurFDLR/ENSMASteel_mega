@@ -4,28 +4,26 @@
 #include "Moteur.h"
 #include "1_CONSTANTS.h"
 
-class contacteur;
+class Contacteur;
 class Codeuse;
 class PID;
 
 class Elevator
 {
   private:
-	  Moteur mot;
+	  Motor* moteurElevator;
 	  ElevatorStateE state;
-	  float pos,aim;
-	  contacteur *contacteurHaut;
-	  contacteur *contacteurBas;
+	  float aim;
+	  Contacteur *contacteurElevator;
 	  Codeuse *codeuseElevator;
 	  PID *pidElevator;
 
   public:
-  
-	  Elevator(uint8_t pinContacteurBas, uint8_t pinContacteurHaut,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos);
+
+	  Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
 	  Elevator();
-  
-	  void up(); // faire monter les ventouses
-	  void down(); // faire descendre les ventouses
+	  void actuate(float dt);
+
 	  bool init();
 };
 

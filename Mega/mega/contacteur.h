@@ -2,13 +2,13 @@
 #define CONTACTEUR_INCLUDED
 #include "Arduino.h"
 
-class contacteur
+class Contacteur
 {
   uint8_t pin;
-  
+
   public:
-	  contacteur(uint8_t pin);
-	  contacteur();
+	  Contacteur(uint8_t pin);
+	  Contacteur();
 	  bool isPressed();
 };
 
