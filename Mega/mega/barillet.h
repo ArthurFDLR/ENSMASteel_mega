@@ -10,13 +10,13 @@ class Barillet
 	public:
 
 	Barillet(uint8_t pin_codeuse_A,uint8_t pin_codeuse_B,uint8_t pin_sens,uint8_t pin_pwr);
+  Barillet();
   Codeuse *codeuseBarillet;
 	PID *pidBarillet;
 	int get_angle();
 	void set_angle(float angle);
 	void turn(float angle);
 	FILO trous[6];
-  Barillet();
   void AddPalet(int trouId, PaletE couleur);
   void Actuate(float dT);
   

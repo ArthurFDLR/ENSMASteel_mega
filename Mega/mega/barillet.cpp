@@ -31,3 +31,8 @@ void Barillet::turn(float angle)
 {
 
 }
+
+Barillet::Barillet()
+{
+
+}

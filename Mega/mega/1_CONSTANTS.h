@@ -33,7 +33,7 @@
 #define PINCE_GAUCHE_PIN 7
 #define PINCE_GAUCHE_RETRACTED 2290         //pince cachée
 #define PINCE_GAUCHE_HALF_RETRACTED 1570    //Capture palet
-#define PINCE_GAUCHE_HALF_EXTENDED 375    //Entonnoire
+#define PINCE_GAUCHE_HALF_EXTENDED 1080    //Entonnoire
 #define PINCE_GAUCHE_EXTENDED 600           //Depart
 
 #define PINCE_DROITE_PIN 6
@@ -42,19 +42,19 @@
 #define PINCE_DROITE_HALF_EXTENDED 1900     //Entonnoire
 #define PINCE_DROITE_EXTENDED 2400          //Depart
 
+#define MILLIS_CLEAR 500
 
-
-// --------------------------------- Filtre --------------------------------- 
+// --------------------------------- Filtre ---------------------------------
 enum typeFiltreE { PAS_DE_FILTRE, LOWPASS1, LOWPASS2, DELAY };
 
-// --------------------------------- Messages --------------------------------- 
+// --------------------------------- Messages ---------------------------------
 #define NB_MESSAGES 11
 enum MessageE
 {
 	Default, Impossible, Tirette, Pince_Ouverte, Pince_Mi_Fermee, Pince_Fermee, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear
 };
 
-// --------------------------------- Barillet --------------------------------- 
+// --------------------------------- Barillet ---------------------------------
 #define BARILLET_PIN_A 11
 #define BARILLET_PIN_B 12
 
@@ -63,10 +63,10 @@ enum PaletE
 	Rouge, Bleu, Vert, Gold, VIDE
 };
 
-// --------------------------------- FILO --------------------------------- 
+// --------------------------------- FILO ---------------------------------
 #define TAILLE_FILO 40
 
-// --------------------------------- Elevator --------------------------------- 
+// --------------------------------- Elevator ---------------------------------
 #define LONGUEUR_COURSE 0.1
 
 enum ElevatorStateE
@@ -74,6 +74,6 @@ enum ElevatorStateE
 	Moving, Up, Down
 };
 
-// --------------------------------- Bras --------------------------------- 
+// --------------------------------- Bras ---------------------------------
 
 #endif // !CONSTANTS
