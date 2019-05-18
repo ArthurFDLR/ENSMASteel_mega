@@ -1,7 +1,7 @@
 #include "Pinces.h"
 #include "1_CONSTANTS.h"
 #include "Arduino.h"
-Pinces::Pinces()
+Pinces::Pinces(bool dummy)
 {
     pinceDroite=MegaServo(PINCE_DROITE_PIN,PINCE_DROITE_RETRACTED,PINCE_DROITE_HALF_RETRACTED,PINCE_DROITE_HALF_EXTENDED,PINCE_DROITE_EXTENDED);
     delay(500);
@@ -12,12 +12,25 @@ Pinces::Pinces()
     millisNextActionGauche=millis();
 }
 
+Pinces::Pinces()
+{
+  
+}
+
 void Pinces::actuate()
 {
-    if (millis()>millisNextActionDroite)
+    if (millis()>millisNextActionDroite && pinceDroite.get()!=ordresDroit)
+    {
+        Serial.print("pince droite ordre: ");
+        Serial.println(ordresDroit);
         pinceDroite.set(ordresDroit);
-    if (millis()>millisNextActionGauche)
-        pinceDroite.set(ordresGauche);
+    }
+    if (millis()>millisNextActionGauche && pinceGauche.get()!=ordresGauche)
+    {
+        pinceGauche.set(ordresGauche);
+        Serial.print("pince gauche ordre: ");
+        Serial.println(ordresGauche);
+    }
 }
 
 void Pinces::pinceGaucheSet(ServoPosition pos, bool wait)
@@ -37,6 +50,10 @@ void Pinces::pinceGaucheSet(ServoPosition pos, bool wait)
             Serial.print("COLLISION PINCES")
             #endif // STATE
         }
+    }
+    else//cas classique
+    {
+      ordresGauche=pos;
     }
 }
 
@@ -58,21 +75,34 @@ void Pinces::pinceDroiteSet(ServoPosition pos, bool wait)
             #endif // STATE
         }
     }
+    else
+    {
+      ordresDroit=pos;
+    }
 }
 
 
 void Pinces::bothPincesSet(ServoPosition pos)
 {
+  Serial.print("both called");
     if (pos==ServoPosition::Retracted)//On doit ranger les pinces
     {
+      Serial.print("range");
         //TODO a modifier en fonction de la couleur
         pinceGaucheSet(ServoPosition::Retracted,false);
         pinceDroiteSet(ServoPosition::Retracted,true);
     }
-    if (pinceGauche.get()==ServoPosition::Retracted || pinceDroite.get()==ServoPosition::Retracted) //On doit sortir les pinces
+    else if (pinceGauche.get()==ServoPosition::Retracted || pinceDroite.get()==ServoPosition::Retracted) //On doit sortir les pinces
     {
+      Serial.print("sort");
         //TODO a modifier en fonction de la couleur
         pinceGaucheSet(pos,false);
         pinceDroiteSet(pos,true);
+    }
+    else
+    {
+      Serial.print("mouv classique");
+        pinceGaucheSet(pos,false);
+        pinceDroiteSet(pos,false);
     }
 }

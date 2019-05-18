@@ -7,6 +7,7 @@ class Pinces
     MegaServo pinceGauche,pinceDroite;
     ServoPosition ordresGauche,ordresDroit;
     int32_t millisNextActionGauche,millisNextActionDroite;
+    Pinces(bool dummy);
     Pinces();
     void actuate();
     void pinceGaucheSet(ServoPosition pos,bool wait);

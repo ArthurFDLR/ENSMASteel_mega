@@ -44,6 +44,16 @@
 
 #define MILLIS_CLEAR 500
 
+#define POMPE_GAUCHE_PIN_MOTEUR_PWR     11
+#define POMPE_GAUCHE_PIN_MOTEUR_SENS    51
+#define POMPE_GAUCHE_PIN_MOTEUR_BRAKE   49
+#define POMPE_GAUCHE_PIN_AMP            A0
+
+#define POMPE_DROITE_PIN_MOTEUR_PWR     10
+#define POMPE_DROITE_PIN_MOTEUR_SENS    47
+#define POMPE_DROITE_PIN_MOTEUR_BRAKE   45
+#define POMPE_DROITE_PIN_AMP            A1
+
 // --------------------------------- Filtre ---------------------------------
 enum typeFiltreE { PAS_DE_FILTRE, LOWPASS1, LOWPASS2, DELAY };
 

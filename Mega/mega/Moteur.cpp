@@ -14,18 +14,18 @@ void Motor::actuate()
     {
         order=masterOrder;
     }
-    int orderComp=constrain((int)(order/health),-MAXPWM,MAXPWM);
-    if (orderComp>0)
+    order=constrain(order,-MAXPWM,MAXPWM);
+    if (order>0)
     {
         digitalWrite(pinSens,HIGH);
         digitalWrite(pinBrake,LOW);
-        analogWrite(pinPWR,orderComp);
+        analogWrite(pinPWR,order);
     }
-    else if (orderComp<-0)
+    else if (order<-0)
     {
         digitalWrite(pinSens,LOW);
         digitalWrite(pinBrake,LOW);
-        analogWrite(pinPWR,abs(orderComp));
+        analogWrite(pinPWR,abs(order));
     }
     else
     {
@@ -47,4 +47,5 @@ Motor::Motor(uint8_t in_pinPWR, uint8_t in_pinSens, uint8_t in_pinBrake,float he
     this->order=0;
     this->masterOrder=0;
     this->health=health;
+    this->actuate();
 }

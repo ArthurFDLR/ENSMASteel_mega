@@ -12,15 +12,12 @@ public:
 	Barillet barillet;
 	Pompe pompeG, pompeD;
 	Elevator elevator;
-    MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
-    Pinces pinces;
+  MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
+  Pinces pinces;
 
 	void actuate(float dt);
-	Mega();
-    Mega(float x);
-	~Mega();
+  void init();
 
-private:
 
 };
 

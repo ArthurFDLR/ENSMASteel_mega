@@ -12,7 +12,7 @@ public:
     float health=1.0;
     bool bypass=false;
     Motor();
-    Motor(uint8_t in_pinPWR, uint8_t in_pinSens1, uint8_t in_pinSens2,float health);
+    Motor(uint8_t in_pinPWR, uint8_t in_pinSens, uint8_t in_pinBrake,float health);
     void actuate();                     //Actualisation de la puissance moteur
 };
 
