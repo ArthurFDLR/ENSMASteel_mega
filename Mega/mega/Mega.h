@@ -15,7 +15,7 @@ public:
     MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
     Pinces pinces;
 
-	void Actuate(float dT);
+	void actuate(float dT);
 	Mega();
     Mega(float x);
 	~Mega();

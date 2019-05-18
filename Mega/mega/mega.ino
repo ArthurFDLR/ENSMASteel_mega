@@ -9,12 +9,11 @@ void setup()
 {
   mega=Mega(4.0);
   delay(1000);
-  mega.pinceDroite.set(ServoPosition::HalfExtended);
-  mega.pinceGauche.set(ServoPosition::HalfExtended);
   Serial.begin(115200);
 }
 
 void loop() {
+  mega.actuate(0.1);
 //  if (Serial.available()>0)
 //  {
 //    int x=Serial.parseInt();

@@ -1,6 +1,6 @@
 #include "Mega.h"
 
-void Mega::Actuate(float dT)
+void Mega::actuate(float dT)
 {
 	//barillet.Actuate(dT);
 	pinces.actuate();

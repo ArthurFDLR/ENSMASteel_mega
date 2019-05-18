@@ -1,10 +1,15 @@
 #include "Pinces.h"
 #include "1_CONSTANTS.h"
+#include "Arduino.h"
 Pinces::Pinces()
 {
     pinceDroite=MegaServo(PINCE_DROITE_PIN,PINCE_DROITE_RETRACTED,PINCE_DROITE_HALF_RETRACTED,PINCE_DROITE_HALF_EXTENDED,PINCE_DROITE_EXTENDED);
     delay(500);
     pinceGauche=MegaServo(PINCE_GAUCHE_PIN,PINCE_GAUCHE_RETRACTED,PINCE_GAUCHE_HALF_RETRACTED,PINCE_GAUCHE_HALF_EXTENDED,PINCE_GAUCHE_EXTENDED);
+    ordresDroit=ServoPosition::Extended;
+    ordresGauche=ServoPosition::Extended;
+    millisNextActionDroite=millis();
+    millisNextActionGauche=millis();
 }
 
 void Pinces::actuate()
