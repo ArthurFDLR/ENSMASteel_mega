@@ -1,8 +1,11 @@
 #include "Mega.h"
 
-void Mega::actuate(float dt)
+void Mega::actuate()
 {
-	//barillet.Actuate(dT);
+	float m=millis();
+	float dt=(m-millisActu)/1000.0;
+  millisActu=m;
+	//barillet.Actuate(dt);
 	pinces.actuate();
 	//elevator.actuate(dt);
 }
@@ -18,4 +21,6 @@ void Mega::init()
   pinces=Pinces(true);
   pompeG=Pompe(POMPE_GAUCHE_PIN_MOTEUR_PWR,POMPE_GAUCHE_PIN_MOTEUR_SENS,POMPE_GAUCHE_PIN_MOTEUR_BRAKE,POMPE_GAUCHE_PIN_AMP);
   pompeD=Pompe(POMPE_DROITE_PIN_MOTEUR_PWR,POMPE_DROITE_PIN_MOTEUR_SENS,POMPE_DROITE_PIN_MOTEUR_BRAKE,POMPE_DROITE_PIN_AMP);
+  millisInit=millis();
+  millisActu=millis();
 }

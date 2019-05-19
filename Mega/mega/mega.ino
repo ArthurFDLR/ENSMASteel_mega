@@ -8,23 +8,41 @@ Mega mega;
 
 void setup() 
 {
-  mega.init();
-  delay(2000);
-  //pompe->stop();
-  Serial.begin(9600);
   Serial.println("REBOOT");
-  //mega=Mega(true);
-  Serial.println("mega=...");
-  delay(1500);
-  Serial.println("suck");
-  mega.pinces.bothPincesSet(ServoPosition::HalfExtended);
-  mega.pompeG.suck();
-  delay(1500);
-  Serial.println("fin du setup");
-  
+  mega.init();
+  Serial.begin(9600);
+  Serial.println("fin du setup"); 
 }
 
 void loop() {
   Serial.println("in the loop");
-  mega.actuate(0.1);
+  mega.actuate();
+  if (Serial.available()>0)
+  {
+      int x=Serial.parseInt();
+      if (x>=0 && x<=3)
+      {
+        switch (x)
+        {
+          case 0:
+          mega.pinces.bothPincesSet(ServoPosition::Retracted);
+          break;
+          case 1:
+          mega.pinces.bothPincesSet(ServoPosition::HalfRetracted);
+          break;
+          case 2:
+          mega.pinces.bothPincesSet(ServoPosition::HalfExtended);
+          break;
+          case 3:
+          mega.pinces.bothPincesSet(ServoPosition::Extended);
+          break;
+        }
+      }
+      else 
+      {
+        mega.pinces.pinceDroite.debug(x);
+      }
+      while (Serial.available()>0){Serial.read();}
+  }
+  delay(100);
 }

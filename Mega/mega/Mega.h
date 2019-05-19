@@ -14,8 +14,9 @@ public:
 	Elevator elevator;
   MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
   Pinces pinces;
+  uint32_t millisInit,millisActu;
 
-	void actuate(float dt);
+	void actuate();
   void init();
 
 

@@ -1,5 +1,8 @@
 #ifndef CONSTANTS
 #define CONSTANTS
+
+
+#define STATE
 //---------------------------------- PINS&Servo   --------------------------------
 #define PIN_CODEUSE2_A 37
 #define PIN_CODEUSE2_B 39
@@ -32,17 +35,17 @@
 
 #define PINCE_GAUCHE_PIN 7
 #define PINCE_GAUCHE_RETRACTED 2290         //pince cachée
-#define PINCE_GAUCHE_HALF_RETRACTED 1570    //Capture palet
-#define PINCE_GAUCHE_HALF_EXTENDED 1080    //Entonnoire
+#define PINCE_GAUCHE_HALF_RETRACTED 1625    //Capture palet
+#define PINCE_GAUCHE_HALF_EXTENDED 1000    //Entonnoire
 #define PINCE_GAUCHE_EXTENDED 600           //Depart
 
 #define PINCE_DROITE_PIN 6
 #define PINCE_DROITE_RETRACTED 700          //Pince cachée
-#define PINCE_DROITE_HALF_RETRACTED 1350    //Capture palet
+#define PINCE_DROITE_HALF_RETRACTED 1320    //Capture palet
 #define PINCE_DROITE_HALF_EXTENDED 1900     //Entonnoire
 #define PINCE_DROITE_EXTENDED 2400          //Depart
 
-#define MILLIS_CLEAR 500
+#define MILLIS_CLEAR 250
 
 #define POMPE_GAUCHE_PIN_MOTEUR_PWR     11
 #define POMPE_GAUCHE_PIN_MOTEUR_SENS    51
