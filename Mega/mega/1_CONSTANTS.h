@@ -57,6 +57,20 @@
 #define POMPE_DROITE_PIN_MOTEUR_BRAKE   45
 #define POMPE_DROITE_PIN_AMP            A1
 
+#define SHARP_PALET_GAUCHE_PIN          A2
+#define SHARP_PALET_DROITE_PIN          A7
+#define SHARP_PALET_SEUIL               300
+
+#define SHARP_AVG_PIN           A4
+#define SHARP_AVD_PIN           A5
+#define SHARP_ARG_PIN           A8
+#define SHARP_ARD_PIN           A3
+#define SHARP_ANTICOL_AR_SEUIL       500
+#define SHARP_ANTICOL_AV_SEUIL_PROMITY     400
+#define SHARP_ANTICOL_AV_SEUIL_ALERT     550
+
+
+
 // --------------------------------- Filtre ---------------------------------
 enum typeFiltreE { PAS_DE_FILTRE, LOWPASS1, LOWPASS2, DELAY };
 
@@ -68,8 +82,8 @@ enum MessageE
 };
 
 // --------------------------------- Barillet ---------------------------------
-#define BARILLET_PIN_A 11
-#define BARILLET_PIN_B 12
+#define BARILLET_PIN_A 20
+#define BARILLET_PIN_B 20
 
 enum PaletE
 {

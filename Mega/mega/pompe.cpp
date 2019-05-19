@@ -2,7 +2,7 @@
 
 Pompe::Pompe(uint8_t pinMoteurPwr, uint8_t pinMoteurSens, uint8_t pinMoteurBrake, uint8_t pinAmp)
 {
-    moteur=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake,1.0);
+    moteur=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
     pinMode(pinAmp,INPUT);
 }
 
@@ -13,14 +13,13 @@ Pompe::Pompe()
 
 void Pompe::suck()
 {
-    Serial.println("Aller, viens avec moi !");
     moteur->order=255;
     moteur->actuate();
 }
 
 void Pompe::blow()
 {
-    moteur->order=-MAXPWM;
+    moteur->order=-255;
     moteur->actuate();
 }
 

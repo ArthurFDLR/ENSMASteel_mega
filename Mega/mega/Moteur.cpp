@@ -1,5 +1,6 @@
 #include "Moteur.h"
 #include "Arduino.h"
+
 Motor::Motor()
 {
 
@@ -17,6 +18,7 @@ void Motor::actuate()
     order=constrain(order,-MAXPWM,MAXPWM);
     if (order>0)
     {
+        Serial.print("On me demande d'afficher ");Serial.print(order);Serial.print(" sur la pin ");Serial.println(pinPWR);
         digitalWrite(pinSens,HIGH);
         digitalWrite(pinBrake,LOW);
         analogWrite(pinPWR,order);
@@ -35,7 +37,7 @@ void Motor::actuate()
     }
 }
 
-Motor::Motor(uint8_t in_pinPWR, uint8_t in_pinSens, uint8_t in_pinBrake,float health)
+Motor::Motor(uint8_t in_pinPWR, uint8_t in_pinSens, uint8_t in_pinBrake)
 {
     this->bypass=false;
     this->pinPWR=in_pinPWR;
@@ -46,6 +48,5 @@ Motor::Motor(uint8_t in_pinPWR, uint8_t in_pinSens, uint8_t in_pinBrake,float he
     pinMode(this->pinBrake,OUTPUT);
     this->order=0;
     this->masterOrder=0;
-    this->health=health;
     this->actuate();
 }

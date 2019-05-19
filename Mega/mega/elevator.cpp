@@ -5,7 +5,7 @@
 #include "Moteur.h"
 Elevator::Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake)
 {
-  moteurElevator=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake,1.0);
+  moteurElevator=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
   contacteurElevator=new Contacteur(pinContacteur);
   codeuseElevator=new Codeuse(pin1Codeuse,pin2Codeuse,tickToPos);
   aim=0;

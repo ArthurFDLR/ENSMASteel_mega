@@ -6,18 +6,21 @@
 #include "MegaServo.h"
 #include "1_CONSTANTS.h"
 #include "Pinces.h"
+#include "Sharp.h"
+
 class Mega
 {
 public:
-	Barillet barillet;
-	Pompe pompeG, pompeD;
-	Elevator elevator;
-  MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
-  Pinces pinces;
-  uint32_t millisInit,millisActu;
+    Barillet barillet;
+    Pompe pompeG, pompeD;
+    Elevator elevator;
+    MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
+    Pinces pinces;
+    Sharp sharpAVG,sharpAVD,sharpARG,sharpARD,sharpPaletG,sharpPaletD;
+    uint32_t millisInit,millisActu;
 
-	void actuate();
-  void init();
+    void actuate();
+    void init();
 
 
 };
