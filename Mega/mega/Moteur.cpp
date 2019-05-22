@@ -18,7 +18,6 @@ void Motor::actuate()
     order=constrain(order,-MAXPWM,MAXPWM);
     if (order>0)
     {
-        Serial.print("On me demande d'afficher ");Serial.print(order);Serial.print(" sur la pin ");Serial.println(pinPWR);
         digitalWrite(pinSens,HIGH);
         digitalWrite(pinBrake,LOW);
         analogWrite(pinPWR,order);

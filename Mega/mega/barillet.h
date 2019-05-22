@@ -5,16 +5,18 @@
 #include "1_CONSTANTS.h"
 #include "FILO.h"
 #include "Contacteur.h"
+#include "Moteur.h"
 class Barillet
 {
 	public:
 
-	Barillet(uint8_t pin_codeuse_A,uint8_t pin_codeuse_B,uint8_t pin_sens,uint8_t pin_pwr,uint8_t pin_contacteur);
+	Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
     Barillet();
     Contacteur *contacteurBarillet;
     Codeuse *codeuseBarillet;
-	PID *pidBarillet;
-	int get_angle();
+	  PID *pidBarillet;
+     Motor *moteurBarillet;
+	  int get_angle();
 	void set_angle(float angle);
 	void turn(float angle);
 	FILO trous[6];

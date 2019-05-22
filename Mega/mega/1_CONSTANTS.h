@@ -2,7 +2,7 @@
 #define CONSTANTS
 
 
-#define STATE
+//#define STATE
 //---------------------------------- PINS&Servo   --------------------------------
 #define PIN_CODEUSE2_A 37
 #define PIN_CODEUSE2_B 39
@@ -22,13 +22,13 @@
 #define BRAS_DROIT_EXTENDED 2250            //Horizontal
 
 #define DOIGT_GAUCHE_PIN 5
-#define DOIGT_GAUCHE_RETRACTED 1130         //Bloquage palet
+#define DOIGT_GAUCHE_RETRACTED 1150         //Bloquage palet
 #define DOIGT_GAUCHE_HALF_RETRACTED 1500    //Osef
 #define DOIGT_GAUCHE_HALF_EXTENDED 1500     //Osef
 #define DOIGT_GAUCHE_EXTENDED 1700          //Caché
 
 #define DOIGT_DROIT_PIN 4
-#define DOIGT_DROIT_RETRACTED 1780           //Bloquage palet
+#define DOIGT_DROIT_RETRACTED 1820           //Bloquage palet
 #define DOIGT_DROIT_HALF_RETRACTED 1500     //OSEF
 #define DOIGT_DROIT_HALF_EXTENDED 1500      //OSEF
 #define DOIGT_DROIT_EXTENDED  1280         //caché
@@ -47,7 +47,7 @@
 
 #define MILLIS_CLEAR 250
 
-#define POMPE_GAUCHE_PIN_MOTEUR_PWR     11
+#define POMPE_GAUCHE_PIN_MOTEUR_PWR     13
 #define POMPE_GAUCHE_PIN_MOTEUR_SENS    51
 #define POMPE_GAUCHE_PIN_MOTEUR_BRAKE   49
 #define POMPE_GAUCHE_PIN_AMP            A0
@@ -57,38 +57,53 @@
 #define POMPE_DROITE_PIN_MOTEUR_BRAKE   45
 #define POMPE_DROITE_PIN_AMP            A1
 
-#define SHARP_PALET_GAUCHE_PIN          A2
-#define SHARP_PALET_DROITE_PIN          A7
+#define SHARP_PALET_GAUCHE_PIN          A7
+#define SHARP_PALET_DROITE_PIN          A2
 #define SHARP_PALET_SEUIL               300
 
 #define SHARP_AVG_PIN           A4
-#define SHARP_AVD_PIN           A5
+#define SHARP_AVD_PIN           A6
 #define SHARP_ARG_PIN           A8
 #define SHARP_ARD_PIN           A3
-#define SHARP_ANTICOL_AR_SEUIL       500
-#define SHARP_ANTICOL_AV_SEUIL_PROMITY     400
-#define SHARP_ANTICOL_AV_SEUIL_ALERT     550
+#define SHARP_ANTICOL_AR_SEUIL       550
+#define SHARP_ANTICOL_AV_SEUIL_PROXIMITY     200
+#define SHARP_ANTICOL_AV_SEUIL_ALERT     270
+
+#define PIN_TIRETTE 27
+
+#define BARILLET_PIN_CONTACTEUR       22
+#define BARILLET_PIN_CODEUSE_A        19  //19
+#define BARILLET_PIN_CODEUSE_B        18  //18
+#define BARILLET_PIN_MOTEUR_PWR       8
+#define BARILLET_PIN_MOTEUR_SENS      43
+#define BARILLET_PIN_MOTEUR_BRAKE     41
+
+#define ELEVATOR_PIN_CONTACTEUR       23
+#define ELEVATOR_PIN_CODEUSE_A        21    //21
+#define ELEVATOR_PIN_CODEUSE_B        20    //20
+#define ELEVATOR_PIN_MOTEUR_PWR       9
+#define ELEVATOR_PIN_MOTEUR_SENS      35
+#define ELEVATOR_PIN_MOTEUR_BRAKE     33
 
 
-
-// --------------------------------- Filtre ---------------------------------
-enum typeFiltreE { PAS_DE_FILTRE, LOWPASS1, LOWPASS2, DELAY };
-
+// -
 // --------------------------------- Messages ---------------------------------
-#define NB_MESSAGES 11
+#define NB_MESSAGES 13
 enum MessageE
 {
-	Default, Impossible, Tirette, Pince_Ouverte, Pince_Mi_Fermee, Pince_Fermee, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear
+    Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear
 };
 
 // --------------------------------- Barillet ---------------------------------
-#define BARILLET_PIN_A 20
-#define BARILLET_PIN_B 20
 
 enum PaletE
 {
 	Rouge, Bleu, Vert, Gold, VIDE
 };
+
+enum AnticolE{Front,Back,No};
+
+enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 
 // --------------------------------- FILO ---------------------------------
 #define TAILLE_FILO 40
@@ -98,7 +113,8 @@ enum PaletE
 
 enum ElevatorStateE
 {
-	Moving, Up, Down
+	Moving, ReadyToTakeOnFloor, TakeOnFloor, AboveFinger, DepositOneFloor, DepositeTwoFloor,DepositThreeFloor, AboveBarel, DistribLevel,
+	TakeOneFloor,TakeTwoFloor,TakeThreeFloor, AboveAccelerator, InAccelerator, BlueiumAcceleratorLevel, BalanceLevel
 };
 
 #define MAXPWM 255

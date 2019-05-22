@@ -10,7 +10,7 @@ class PID;
 
 class Elevator
 {
-  private:
+  public:
 	  Motor* moteurElevator;
 	  ElevatorStateE state;
 	  float aim;
@@ -18,7 +18,7 @@ class Elevator
 	  Codeuse *codeuseElevator;
 	  PID *pidElevator;
 
-  public:
+  
 
 	  Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
 	  Elevator();

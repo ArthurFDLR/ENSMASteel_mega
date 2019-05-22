@@ -20,7 +20,8 @@ Elevator::Elevator()
 void Elevator::actuate(float dt)
 {
     codeuseElevator->actuate(dt);
-    moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
+    //moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
+    moteurElevator->order=20;
     moteurElevator->actuate();
 }
 
@@ -32,10 +33,11 @@ bool Elevator::init()
   while (!contacteurElevator->isPressed() and t-tIni<10000)
   {
     t=millis();
-    aim= -0.1*t/1000.0;   //On fait descendre l'elevator doucement
-    actuate(0.001);
-    delayMicroseconds(1000);
+    moteurElevator->order=-25;   //On fait descendre l'elevator doucement
+    moteurElevator->actuate();
   }
+  moteurElevator->order=0;// On arrete l'elevateur
+  moteurElevator->actuate();
   if (t-tIni>10000)return false;
   else
   {
@@ -43,4 +45,5 @@ bool Elevator::init()
     aim=0.0;
     return true;
   }
+  
 }

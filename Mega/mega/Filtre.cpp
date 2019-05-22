@@ -3,17 +3,14 @@
 
 void Filtre::in(float newRaw,float dt)
 {
-  //ON stock la valeur brute au cas ou
-  raw=newRaw;
-  
-  if (dt>0.5 or abs(newRaw-lastRaw)>1.5)                    // Le filtre n'a pas ete appelle pendant trop de temps
-  {lastValue=newRaw; lastLastValue=newRaw; lastRaw=newRaw;} // ou il y a eu une discontinuite il n'a plus de sens donc on le reset
-  else 
+    //ON stock la valeur brute au cas ou
+    raw=newRaw;
+    if (dt>0.0000001)
     {
       switch (typeFiltre)
       {
         case PAS_DE_FILTRE: {lastValue=newRaw;break;} //A l'ordre 0, on ne fait rien
-        case LOWPASS1: {lastValue=(lastValue+newRaw*dt*Wc)/(Wc*dt+1);break;} 
+        case LOWPASS1: {lastValue=(lastValue+newRaw*dt*Wc)/(Wc*dt+1);break;}
         case LOWPASS2:
           {
             float alpha=Wc*dt;
@@ -33,7 +30,7 @@ void Filtre::in(float newRaw,float dt)
 
 float Filtre::out()
 {
-  return lastValue; 
+  return lastValue;
 }
 
 Filtre::Filtre(float initValue,float frequency,typeFiltreE typeFiltre)
@@ -48,5 +45,5 @@ Filtre::Filtre(float initValue,float frequency,typeFiltreE typeFiltre)
 
 Filtre::Filtre()
 {
-  
+
 }

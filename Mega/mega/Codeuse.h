@@ -13,8 +13,12 @@ class Codeuse
 	  Codeuse(uint8_t pin1,uint8_t pin2,float tickToPos);  
   
   private:
+    uint8_t pin1,pin2;
 	  float tickToPos;
 	  int32_t ticks,oldTicks;     //Nombre de ticks compté, nombre de ticks compté au dernier appel
-	  Encoder *enc;
+	  uint8_t ID;
+    static uint8_t nextIdToGive;
 };
+
+
 #endif

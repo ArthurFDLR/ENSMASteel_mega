@@ -1,9 +1,13 @@
 #include "Pompe.h"
 
-Pompe::Pompe(uint8_t pinMoteurPwr, uint8_t pinMoteurSens, uint8_t pinMoteurBrake, uint8_t pinAmp)
+Pompe::Pompe(uint8_t pinMoteurPwr, uint8_t pinMoteurSens, uint8_t pinMoteurBrake, uint8_t pinAmp,bool inverted)
 {
     moteur=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
     pinMode(pinAmp,INPUT);
+    if (inverted)
+      signe=-1.0;
+    else
+      signe=1.0;
 }
 
 Pompe::Pompe()
@@ -13,13 +17,19 @@ Pompe::Pompe()
 
 void Pompe::suck()
 {
-    moteur->order=255;
+    moteur->order=signe*215;
+    moteur->actuate();
+}
+
+void Pompe::suckHard()
+{
+    moteur->order=signe*255;
     moteur->actuate();
 }
 
 void Pompe::blow()
 {
-    moteur->order=-255;
+    moteur->order=-1*signe*215;
     moteur->actuate();
 }
 
@@ -31,5 +41,5 @@ void Pompe::stop()
 
 bool Pompe::isSucked()
 {
-    Serial.println(analogRead(pinAmp));
+    Serial.print(analogRead(pinAmp));
 }
