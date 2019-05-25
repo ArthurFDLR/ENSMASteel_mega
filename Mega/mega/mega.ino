@@ -16,13 +16,33 @@ void setup()
   {
     ;
   }
-  Serial.println("coucou");
 //  mega.barillet.moteurBarillet->order=100;
 //  mega.barillet.moteurBarillet->actuate();
-//  mega.elevator.moteurElevator->order=75;
+    mega.barillet.codeuseBarillet->actuate(1);
+
+
+
+//  mega.elevator.moteurElevator->order=150;
 //  mega.elevator.moteurElevator->actuate();
 //  delay(500);
-//mega.elevator.init();
+//  mega.elevator.init();
+//  Serial.println(mega.elevator.codeuseElevator->pos);
+//
+//      while (!mega.barillet.contacteurBarillet->isPressed())
+//  {
+//  mega.elevator.moteurElevator->order=40;
+//  mega.elevator.moteurElevator->actuate();
+//  mega.elevator.codeuseElevator->actuate(1);
+//  mega.barillet.codeuseBarillet->actuate(1);
+//  Serial.println(mega.elevator.codeuseElevator->pos);
+//  }
+
+  
+//  Serial.println(mega.elevator.codeuseElevator->pos);
+////  Serial.println(pos);
+//  delay(1000);
+//  mega.elevator.moteurElevator->order=-50;
+//  delay(1000);
 //
 //  mega.pompeG.suck();
 //  mega.pompeD.suck();
@@ -32,6 +52,6 @@ void setup()
 
 void loop() {
   mega.actuate();
-  //Serial.println(mega.elevator.codeuseElevator->pos);
-  delay(1);
+//  Serial.println(mega.elevator.codeuseElevator->pos);
+//  delay(1);
 }

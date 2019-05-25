@@ -61,15 +61,17 @@
 #define SHARP_PALET_DROITE_PIN          A2
 #define SHARP_PALET_SEUIL               300
 
-#define SHARP_AVG_PIN           A4
-#define SHARP_AVD_PIN           A6
-#define SHARP_ARG_PIN           A8
-#define SHARP_ARD_PIN           A3
-#define SHARP_ANTICOL_AR_SEUIL       550
+#define SHARP_AVG_PIN                   A4
+#define SHARP_AVD_PIN                   A6
+#define SHARP_ARG_PIN                   A8
+#define SHARP_ARD_PIN                   A3
+#define SHARP_ANTICOL_AR_SEUIL          550
 #define SHARP_ANTICOL_AV_SEUIL_PROXIMITY     200
-#define SHARP_ANTICOL_AV_SEUIL_ALERT     270
+#define SHARP_ANTICOL_AV_SEUIL_ALERT    270
 
 #define PIN_TIRETTE 27
+
+// --------------------------------- Barillet ---------------------------------
 
 #define BARILLET_PIN_CONTACTEUR       22
 #define BARILLET_PIN_CODEUSE_A        19  //19
@@ -77,6 +79,21 @@
 #define BARILLET_PIN_MOTEUR_PWR       8
 #define BARILLET_PIN_MOTEUR_SENS      43
 #define BARILLET_PIN_MOTEUR_BRAKE     41
+#define BARILLET_TickToPos            334 //1337/4
+#define BARILLET_AngleToInit            // à determiner exp
+#define BARILLET_AngleToNext            1,047975512
+
+enum PaletE
+{
+  Rouge, Bleu, Vert, Gold, VIDE
+};
+
+enum AnticolE{Front,Back,No};
+
+enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
+
+
+// --------------------------------- Elevator ---------------------------------
 
 #define ELEVATOR_PIN_CONTACTEUR       23
 #define ELEVATOR_PIN_CODEUSE_A        21    //21
@@ -84,38 +101,41 @@
 #define ELEVATOR_PIN_MOTEUR_PWR       9
 #define ELEVATOR_PIN_MOTEUR_SENS      35
 #define ELEVATOR_PIN_MOTEUR_BRAKE     33
+#define ELEVATOR_TickToPos            20000 //80000
+#define AIMReadyToTakeOnFloor         // a determiner exp
+#define AIMTakeOnFloor
+#define AIMAboveFinger
+#define AIMDepositOneFloor
+#define AIMDepositeTwoFloor
+#define AIMDepositThreeFloor
+#define AIMAboveBare
+#define AIMDistribLevel
+#define AIMTakeOneFloor
+#define AIMTakeTwoFloor
+#define AIMTakeThreeFloor
+#define AIMAboveAccelerator
+#define AIMInAccelerator
+#define AIMBlueiumAcceleratorLevel
+#define AIMBalanceLevel
+#define LONGUEUR_COURSE 0.19
 
+enum ElevatorStateE
+{
+  Moving, ReadyToTakeOnFloor, TakeOnFloor, AboveFinger, DepositOneFloor, DepositeTwoFloor,DepositThreeFloor, AboveBarel, DistribLevel,
+  TakeOneFloor,TakeTwoFloor,TakeThreeFloor, AboveAccelerator, InAccelerator, BlueiumAcceleratorLevel, BalanceLevel
+};
 
-// -
 // --------------------------------- Messages ---------------------------------
+
 #define NB_MESSAGES 13
 enum MessageE
 {
     Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear
 };
 
-// --------------------------------- Barillet ---------------------------------
-
-enum PaletE
-{
-	Rouge, Bleu, Vert, Gold, VIDE
-};
-
-enum AnticolE{Front,Back,No};
-
-enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
-
 // --------------------------------- FILO ---------------------------------
 #define TAILLE_FILO 40
 
-// --------------------------------- Elevator ---------------------------------
-#define LONGUEUR_COURSE 0.1
-
-enum ElevatorStateE
-{
-	Moving, ReadyToTakeOnFloor, TakeOnFloor, AboveFinger, DepositOneFloor, DepositeTwoFloor,DepositThreeFloor, AboveBarel, DistribLevel,
-	TakeOneFloor,TakeTwoFloor,TakeThreeFloor, AboveAccelerator, InAccelerator, BlueiumAcceleratorLevel, BalanceLevel
-};
 
 #define MAXPWM 255
 // --------------------------------- Bras ---------------------------------

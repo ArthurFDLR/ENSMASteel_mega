@@ -20,9 +20,10 @@ Elevator::Elevator()
 void Elevator::actuate(float dt)
 {
     codeuseElevator->actuate(dt);
-    //moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
-    moteurElevator->order=20;
-    moteurElevator->actuate();
+//    Serial.println(codeuseElevator->oldTicks);
+    moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
+//    moteurElevator->order=30;
+//    moteurElevator->actuate();
 }
 
 
@@ -33,16 +34,20 @@ bool Elevator::init()
   while (!contacteurElevator->isPressed() and t-tIni<10000)
   {
     t=millis();
-    moteurElevator->order=-25;   //On fait descendre l'elevator doucement
+    moteurElevator->order=-30;   //On fait descendre l'elevator doucement
     moteurElevator->actuate();
   }
+  Serial.println("je suis dedans");
   moteurElevator->order=0;// On arrete l'elevateur
   moteurElevator->actuate();
+
   if (t-tIni>10000)return false;
   else
   {
     codeuseElevator->pos=0.0;
+    codeuseElevator->dPos=0.0;
     aim=0.0;
+      Serial.println("mise à zero");
     return true;
   }
   

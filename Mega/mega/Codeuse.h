@@ -7,7 +7,7 @@
 class Codeuse
 {
   public:
-	  float dPos,pos;        //Vitesse et avance du robot AU NIVEAU DE LA ROUE CODEUSE
+	  float dPos,pos;        //Vitesse et avance du moteur
 	  void actuate(float dt);     //Actualise (transforme les ticks en vitesse puis en avance)
 	  Codeuse();
 	  Codeuse(uint8_t pin1,uint8_t pin2,float tickToPos);  
