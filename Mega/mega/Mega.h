@@ -19,13 +19,16 @@ public:
     Elevator elevator;
     MegaServo brasGauche,brasDroit,doigtGauche,doigtDroit;
     Pinces pinces;
-    Sharp sharpAVG,sharpAVD,sharpARG,sharpARD,sharpPaletG,sharpPaletD;
+    Sharp sharpAVG,sharpAVD,sharpARG,sharpARD,sharpPaletG,sharpPaletD,AmperemetrePompeGauche,AmperemetrePompeDroit;
     Contacteur tirette;
     Comm comm;
     uint32_t millisInit,millisActu;
 
     void actuate();
     void init();
+
+private:
+    bool evitting;
 
 
 };

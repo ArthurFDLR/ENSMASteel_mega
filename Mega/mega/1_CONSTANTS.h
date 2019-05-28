@@ -1,8 +1,8 @@
 #ifndef CONSTANTS
 #define CONSTANTS
+#define ACCBARILLET 5.0
 
-
-//#define STATE
+#define STATE
 //---------------------------------- PINS&Servo   --------------------------------
 #define PIN_CODEUSE2_A 37
 #define PIN_CODEUSE2_B 39
@@ -22,13 +22,13 @@
 #define BRAS_DROIT_EXTENDED 2250            //Horizontal
 
 #define DOIGT_GAUCHE_PIN 5
-#define DOIGT_GAUCHE_RETRACTED 1150         //Bloquage palet
+#define DOIGT_GAUCHE_RETRACTED 1180         //Bloquage palet
 #define DOIGT_GAUCHE_HALF_RETRACTED 1500    //Osef
 #define DOIGT_GAUCHE_HALF_EXTENDED 1500     //Osef
 #define DOIGT_GAUCHE_EXTENDED 1700          //Caché
 
 #define DOIGT_DROIT_PIN 4
-#define DOIGT_DROIT_RETRACTED 1820           //Bloquage palet
+#define DOIGT_DROIT_RETRACTED 1800           //Bloquage palet
 #define DOIGT_DROIT_HALF_RETRACTED 1500     //OSEF
 #define DOIGT_DROIT_HALF_EXTENDED 1500      //OSEF
 #define DOIGT_DROIT_EXTENDED  1280         //caché
@@ -69,23 +69,31 @@
 #define SHARP_ANTICOL_AV_SEUIL_PROXIMITY     200
 #define SHARP_ANTICOL_AV_SEUIL_ALERT    270
 
+#define AMPEREMETRE_POMPE_Droit_PIN         A0
+#define AMPEREMETRE_POMPE_Droit_SEUIL_DETECTED   560.
+#define AMPEREMETRE_POMPE_Droit_SEUIL_PROXIMITY     500.//osef
+
+#define AMPEREMETRE_POMPE_Gauche_PIN        A1
+#define AMPEREMETRE_POMPE_Gauche_SEUIL_DETECTED   550.//563
+#define AMPEREMETRE_POMPE_Gauche_SEUIL_PROXIMITY     500.//osef
+
 #define PIN_TIRETTE 27
 
 // --------------------------------- Barillet ---------------------------------
 
 #define BARILLET_PIN_CONTACTEUR       22
-#define BARILLET_PIN_CODEUSE_A        19  //19
-#define BARILLET_PIN_CODEUSE_B        18  //18
+#define BARILLET_PIN_CODEUSE_A        18
+#define BARILLET_PIN_CODEUSE_B        19
 #define BARILLET_PIN_MOTEUR_PWR       8
 #define BARILLET_PIN_MOTEUR_SENS      43
 #define BARILLET_PIN_MOTEUR_BRAKE     41
-#define BARILLET_TickToPos            334 //1337/4
-#define BARILLET_AngleToInit            // à determiner exp
-#define BARILLET_AngleToNext            1,047975512
+#define BARILLET_TickToPos            1337
+#define BARILLET_AngleToInit          1.14 // à determiner exp
+#define BARILLET_AngleToNext           1.047975512
 
 enum PaletE
 {
-  Rouge, Bleu, Vert, Gold, VIDE
+  Rouge, Bleu, Vert, VIDE
 };
 
 enum AnticolE{Front,Back,No};
@@ -101,41 +109,47 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 #define ELEVATOR_PIN_MOTEUR_PWR       9
 #define ELEVATOR_PIN_MOTEUR_SENS      35
 #define ELEVATOR_PIN_MOTEUR_BRAKE     33
-#define ELEVATOR_TickToPos            20000 //80000
-#define AIMReadyToTakeOnFloor         // a determiner exp
-#define AIMTakeOnFloor
-#define AIMAboveFinger
-#define AIMDepositOneFloor
-#define AIMDepositeTwoFloor
-#define AIMDepositThreeFloor
-#define AIMAboveBare
-#define AIMDistribLevel
-#define AIMTakeOneFloor
-#define AIMTakeTwoFloor
-#define AIMTakeThreeFloor
-#define AIMAboveAccelerator
-#define AIMInAccelerator
-#define AIMBlueiumAcceleratorLevel
-#define AIMBalanceLevel
-#define LONGUEUR_COURSE 0.19
+#define ELEVATOR_TickToPos            800 //80000
+#define AIMReadyToTakeOnFloor         3. // a determiner exp
+#define AIMTakeOnFloor                0.5
+#define AIMAboveFinger                11.
+#define AIMDepositOneFloor            8.
+#define AIMDepositeTwoFloor           10.5
+#define AIMDepositThreeFloor          13.
+#define AIMAboveBarel                 15.5
+#define AIMDistribLevel               0.5
+#define AIMTakeOneFloor               7.75
+#define AIMTakeTwoFloor               10.25
+#define AIMTakeThreeFloor             12.75
+#define AIMAboveAccelerator           12.
+#define AIMInAccelerator              8.
+#define AIMBlueiumAcceleratorLevel    5.5
+#define AIMGoldoniumLevel             8.
+#define AIMBalanceLevel               9.5
+#define LONGUEUR_COURSE               16.
 
 enum ElevatorStateE
 {
   Moving, ReadyToTakeOnFloor, TakeOnFloor, AboveFinger, DepositOneFloor, DepositeTwoFloor,DepositThreeFloor, AboveBarel, DistribLevel,
-  TakeOneFloor,TakeTwoFloor,TakeThreeFloor, AboveAccelerator, InAccelerator, BlueiumAcceleratorLevel, BalanceLevel
+  TakeOneFloor,TakeTwoFloor,TakeThreeFloor, AboveAccelerator, InAccelerator, BlueiumAcceleratorLevel, GoldoniumLevel, BalanceLevel
 };
 
 // --------------------------------- Messages ---------------------------------
 
-#define NB_MESSAGES 13
+#define NB_MESSAGES 14
 enum MessageE
 {
-    Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear
+    Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear, MontePalet
 };
 
-// --------------------------------- FILO ---------------------------------
-#define TAILLE_FILO 40
 
+#define BAS 0
+#define MILLIEU 1
+#define HAUT 2
+
+#define LOWPRIORITY 0
+#define MIDPRIORITY 1
+#define HIGHPRIORITY 2
 
 #define MAXPWM 255
 // --------------------------------- Bras ---------------------------------

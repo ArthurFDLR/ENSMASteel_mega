@@ -8,7 +8,9 @@ Sharp::Sharp()
 void Sharp::actuate(float dt)
 {
     this->filtre.in((float)analogRead(pin),dt);
-    this->rawVal=filtre.out();
+   this->rawVal=filtre.out();
+//     this->rawVal=analogRead(pin);
+  //  Serial.println(rawVal);
 }
 
 
@@ -23,7 +25,7 @@ Sharp::Sharp(uint8_t pin, float seuil_alerte, float seuil_proximity)
     this->rawVal=0;
 }
 
-#define HYSTERESIS 5
+#define HYSTERESIS 1
 SharpState Sharp::getState()
 {
     if (rawVal>seuil_alerte)           //Pas d'hyste montante

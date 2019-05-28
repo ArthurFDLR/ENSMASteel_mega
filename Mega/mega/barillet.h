@@ -3,32 +3,40 @@
 #include "PID.h"
 #include "Codeuse.h"
 #include "1_CONSTANTS.h"
-#include "FILO.h"
 #include "Contacteur.h"
 #include "Moteur.h"
+#include "Filtre.h"
+class Cellule
+{
+public:
+    Cellule(PaletE bas,PaletE millieu,PaletE haut,PaletE highPriority,PaletE midPriority,PaletE lowPriority,float angleDroite,float angleGauche);
+    Cellule();
+    PaletE stock[3];
+    uint8_t nbPaletIn;
+    PaletE priorityIn[3];
+    float angleGauche,angleDroite;
+    void add(PaletE palet);
+    void take();
+};
+
 class Barillet
 {
-	public:
+public:
 
-	Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
+    Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
     Barillet();
     Contacteur *contacteurBarillet;
     Codeuse *codeuseBarillet;
-	  PID *pidBarillet;
-     Motor *moteurBarillet;
-	  int get_angle();
-	void set_angle(float angle);
-	void turn(float angle);
-	FILO trous[6];
-    void addPalet(int trouId, PaletE couleur);
+    PID *pidBarillet;
+    Motor *moteurBarillet;
+    Cellule* cellule[6];
+    bool init();
+    void addPalet(int cellId, PaletE couleur);
     void actuate(float dT);
-    void init();
-
-	private:
-
-	float angle;
-    int celluleDroite; //Reference de la cellule au dessus de l'encoche droite (-1 indique un deplacement en cours)
-    //Apres l'init, c'est la cellule 1 qui est sous cette encoche
+    void goTo(float angle);
+    bool goodenough();
+    private:
+    float target,tStartGoto,tFinGoto,tInversion,aim,dAim;
 };
 
 #endif
