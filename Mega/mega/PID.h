@@ -11,6 +11,7 @@ class PID
 	  float I, KP, KI, KD;
 	  bool needNormalizing;
 	  Filtre dPosFiltered;
+    void reset();
 
 	  float compute(float dt,float aim,float pos,float dPosRaw);
 	  PID(bool needNormalizing, float KP, float KI, float KD,float cutFrequency,float initValue);

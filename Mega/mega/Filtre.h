@@ -9,6 +9,7 @@ class Filtre
 		void in(float newRaw,float dt);               //Entrée d'une donnée brute
 		float out();                                  //Sortie d'une donnée filtrée
 		Filtre(float initValue,float frequency,typeFiltreE typeFiltre);
+    void reset(float initValue);
 		Filtre();
 
 	private:

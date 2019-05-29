@@ -13,6 +13,12 @@ float normalize(float theta)
     return out;
 }
 
+void PID::reset()
+{
+  I=0;
+  dPosFiltered.reset(0.0);
+}
+
 float PID::compute(float dt,float aim,float pos,float dPosRaw)
 {
 

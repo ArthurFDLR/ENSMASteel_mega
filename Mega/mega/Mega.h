@@ -11,6 +11,9 @@
 #include "Elevator.h"
 #include "Barillet.h"
 #include "Comm.h"
+enum actionCouranteE {Idle,Chaos,Distrib};
+enum etapeChaosE {PrepChaos,DescentSouffletSol,RemontePalet,DeposeOneFloor,DeposeRemonte,TourneBarillet};
+
 class Mega
 {
 public:
@@ -22,10 +25,14 @@ public:
     Sharp sharpAVG,sharpAVD,sharpARG,sharpARD,sharpPaletG,sharpPaletD,AmperemetrePompeGauche,AmperemetrePompeDroit;
     Contacteur tirette;
     Comm comm;
+    actionCouranteE actionCourante;
+    etapeChaosE etapeChaos;
     uint32_t millisInit,millisActu;
 
     void actuate();
     void init();
+
+    bool coteviolet = true ; 
 
 private:
     bool evitting;

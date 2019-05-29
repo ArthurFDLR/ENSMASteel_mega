@@ -7,14 +7,14 @@ Mega mega;
 
 void setup() 
 {
-    mega.pompeG.suck();
-  mega.pompeD.suck();
+//    mega.pompeG.suck();
+//  mega.pompeD.suck();
   Serial.println("REBOOT");
   Serial.begin(250000);
 
   mega.init();
-  mega.pompeG.suck();
-  mega.pompeD.suck();
+ // mega.pompeG.suck();
+  //mega.pompeD.suck();
 
   while (mega.tirette.isPressed())
   {

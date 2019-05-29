@@ -4,10 +4,7 @@
 
 #define STATE
 //---------------------------------- PINS&Servo   --------------------------------
-#define PIN_CODEUSE2_A 37
-#define PIN_CODEUSE2_B 39
-#define PIN_CODEUSE1_A 29
-#define PIN_CODEUSE1_B 31
+
 
 #define BRAS_GAUCHE_PIN 3
 #define BRAS_GAUCHE_RETRACTED 2300          //Vertical
@@ -82,14 +79,14 @@
 // --------------------------------- Barillet ---------------------------------
 
 #define BARILLET_PIN_CONTACTEUR       22
-#define BARILLET_PIN_CODEUSE_A        18
+#define BARILLET_PIN_CODEUSE_A        24
 #define BARILLET_PIN_CODEUSE_B        19
 #define BARILLET_PIN_MOTEUR_PWR       8
 #define BARILLET_PIN_MOTEUR_SENS      43
 #define BARILLET_PIN_MOTEUR_BRAKE     41
-#define BARILLET_TickToPos            1337
+#define BARILLET_TickToPos            668.5
 #define BARILLET_AngleToInit          1.14 // à determiner exp
-#define BARILLET_AngleToNext           1.047975512
+#define BARILLET_AngleToNext          1.047975512
 
 enum PaletE
 {
@@ -104,29 +101,29 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 // --------------------------------- Elevator ---------------------------------
 
 #define ELEVATOR_PIN_CONTACTEUR       23
-#define ELEVATOR_PIN_CODEUSE_A        21    //21
-#define ELEVATOR_PIN_CODEUSE_B        20    //20
+#define ELEVATOR_PIN_CODEUSE_A        26    
+#define ELEVATOR_PIN_CODEUSE_B        18    
 #define ELEVATOR_PIN_MOTEUR_PWR       9
 #define ELEVATOR_PIN_MOTEUR_SENS      35
 #define ELEVATOR_PIN_MOTEUR_BRAKE     33
-#define ELEVATOR_TickToPos            800 //80000
-#define AIMReadyToTakeOnFloor         3. // a determiner exp
-#define AIMTakeOnFloor                0.5
-#define AIMAboveFinger                11.
-#define AIMDepositOneFloor            8.
-#define AIMDepositeTwoFloor           10.5
-#define AIMDepositThreeFloor          13.
-#define AIMAboveBarel                 15.5
-#define AIMDistribLevel               0.5
-#define AIMTakeOneFloor               7.75
-#define AIMTakeTwoFloor               10.25
-#define AIMTakeThreeFloor             12.75
-#define AIMAboveAccelerator           12.
-#define AIMInAccelerator              8.
-#define AIMBlueiumAcceleratorLevel    5.5
-#define AIMGoldoniumLevel             8.
-#define AIMBalanceLevel               9.5
-#define LONGUEUR_COURSE               16.
+#define ELEVATOR_TickToPos            40000 //80000
+#define AIMReadyToTakeOnFloor         0.03 // a determiner exp
+#define AIMTakeOnFloor                0.005
+#define AIMAboveFinger                0.11
+#define AIMDepositOneFloor            0.08
+#define AIMDepositeTwoFloor           0.105
+#define AIMDepositThreeFloor          0.13
+#define AIMAboveBarel                 0.155
+#define AIMDistribLevel               0.05
+#define AIMTakeOneFloor               0.0775
+#define AIMTakeTwoFloor               0.1025
+#define AIMTakeThreeFloor             0.1275
+#define AIMAboveAccelerator           0.12
+#define AIMInAccelerator              0.08
+#define AIMBlueiumAcceleratorLevel    0.055
+#define AIMGoldoniumLevel             0.08
+#define AIMBalanceLevel               0.095
+#define LONGUEUR_COURSE               0.16
 
 enum ElevatorStateE
 {
@@ -139,7 +136,7 @@ enum ElevatorStateE
 #define NB_MESSAGES 14
 enum MessageE
 {
-    Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear, MontePalet
+    Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done, New_Action, Sync, Evitemment_Clear, MontePalet, Start_Chaos
 };
 
 

@@ -6,6 +6,9 @@
 #include "Contacteur.h"
 #include "Moteur.h"
 #include "Filtre.h"
+#include "Color.h"
+class Mega;
+
 class Cellule
 {
 public:
@@ -23,18 +26,24 @@ class Barillet
 {
 public:
 
-    Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake);
+    Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake,bool coteviolet ,Mega* ptrMega);
     Barillet();
     Contacteur *contacteurBarillet;
     Codeuse *codeuseBarillet;
     PID *pidBarillet;
     Motor *moteurBarillet;
     Cellule* cellule[6];
+    Color* color;
+    Mega* ptrMega ;
     bool init();
-    void addPalet(int cellId, PaletE couleur);
+    bool RedefinitionPosBleuium();
+  //  void addPalet(int cellId, PaletE couleur);
+    float Poscellule1,Poscellule2,Poscellule3,Poscellule4,Poscellule5,Poscellule6;
     void actuate(float dT);
     void goTo(float angle);
+    void goToDelta(float angle);
     bool goodenough();
+    bool coteviolet;
     private:
     float target,tStartGoto,tFinGoto,tInversion,aim,dAim;
 };

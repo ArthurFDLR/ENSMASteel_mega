@@ -1,5 +1,9 @@
 #include "Mega.h"
 #include "Contacteur.h"
+
+
+
+
 void Mega::actuate()
 {
     //Actualisation des parametres
@@ -20,6 +24,7 @@ void Mega::actuate()
     elevator.actuate(dt);
     barillet.actuate(dt);
     comm.actuate();
+
 
     //Communication
     if (tirette.isJustPressed())
@@ -44,81 +49,14 @@ void Mega::actuate()
         pinces.bothPincesSet(ServoPosition::Retracted);
         comm.taken();
         break;
-    case MessageE::MontePalet:
-        elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-        elevator.moteurElevator->actuate();
-        brasDroit.set(ServoPosition::Retracted);
-        brasGauche.set(ServoPosition::Retracted);
-        elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMReadyToTakeOnFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-        elevator.moteurElevator->actuate();
-
-        if (sharpPaletD.getState()==Proximity and (sharpPaletD.getState()==Proximity))
-        {
-            pompeG.suck();
-            pompeD.suck();
-            elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMTakeOnFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-            elevator.moteurElevator->actuate();
-            elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveFinger,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-            elevator.moteurElevator->actuate();
-            elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMDepositOneFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-            elevator.moteurElevator->actuate();
-            pompeG.blow();
-            pompeD.blow();
-            elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-            elevator.moteurElevator->actuate();
-            pompeG.stop();
-            pompeD.stop();
-            barillet.moteurBarillet->order=barillet.pidBarillet->compute(dt,2*BARILLET_AngleToNext,barillet.codeuseBarillet->pos,barillet.codeuseBarillet->dPos);
-            barillet.moteurBarillet->actuate();
-        }
-        else
-        {
-            if (sharpPaletD.getState()==Proximity)
-            {
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                brasGauche.set(ServoPosition::Extended);
-                brasDroit.set(ServoPosition::Retracted);
-                pompeD.suck();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMTakeOnFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveFinger,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMDepositOneFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                pompeD.blow();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                pompeD.stop();
-                barillet.moteurBarillet->order=barillet.pidBarillet->compute(dt,BARILLET_AngleToNext,barillet.codeuseBarillet->pos,barillet.codeuseBarillet->dPos);
-                barillet.moteurBarillet->actuate();
-            }
-            if (sharpPaletG.getState()==Proximity)
-            {
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                brasGauche.set(ServoPosition::Retracted);
-                brasDroit.set(ServoPosition::Extended);
-                pompeG.suck();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMTakeOnFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveFinger,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMDepositOneFloor,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                pompeG.blow();
-                elevator.moteurElevator->order=elevator.pidElevator->compute(dt,AIMAboveBarel,elevator.codeuseElevator->pos,elevator.codeuseElevator->dPos);
-                elevator.moteurElevator->actuate();
-                pompeG.stop();
-                barillet.moteurBarillet->order=barillet.pidBarillet->compute(dt,BARILLET_AngleToNext,barillet.codeuseBarillet->pos,barillet.codeuseBarillet->dPos);
-                barillet.moteurBarillet->actuate();
-
-            }
-        }
+    case MessageE::Start_Chaos:
+        actionCourante=Chaos;
+        etapeChaos= PrepChaos;
         break;
     }
 
 
+//------------------------------------------------Evitemement--------------------------------
     if(comm.anticol==AnticolE::Front)
     {
         if(sharpAVD.getState()==Alerte || sharpAVG.getState()==Alerte)
@@ -177,7 +115,71 @@ void Mega::actuate()
         evitting=false;
     }
 
+//--------------------------------------------------doigt bloc palet-------------------------
 
+       if(sharpPaletD.getState()== Proximity )
+       {
+        doigtDroit.set(Extended);
+       }
+       
+       if(sharpPaletG.getState()== Proximity )
+       {
+        doigtGauche.set(Extended);
+       }
+//--------------------------------------------------Sous actions------------------------
+    switch(actionCourante)
+    {
+      case (Chaos):
+        switch(etapeChaos)
+        {
+        case (PrepChaos):
+         pompeD.stop();
+         pompeG.stop();
+         brasDroit.set(Retracted);
+         brasGauche.set(Retracted);
+         elevator.aim=AIMAboveBarel;
+         if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.005 and sharpPaletD.getState()==Alerte and sharpPaletG.getState()==Alerte){
+           etapeChaos= DescentSouffletSol;
+         }
+        break;
+        case (DescentSouffletSol):
+             pompeD.suck();
+             pompeG.suck();
+             elevator.aim=AIMTakeOnFloor;
+             if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001 and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
+                  etapeChaos = RemontePalet;
+             }
+             //contremesure descendre plus bas mais peu se faire indéfiniment, on fait confiance aux pompes
+        break;
+        case (RemontePalet):
+             elevator.aim=AIMAboveFinger;
+             if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+                etapeChaos = DeposeOneFloor;
+             }
+         break;     
+         case (DeposeOneFloor):
+              elevator.aim=AIMDepositOneFloor;
+              if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+                etapeChaos = DeposeRemonte;
+              }
+              break;
+          case(DeposeRemonte):
+              pompeD.blow();
+              pompeG.blow();
+              elevator.aim=AIMAboveBarel; 
+              if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+                etapeChaos = TourneBarillet; 
+              }
+              break;
+         case (TourneBarillet):
+              barillet.goToDelta(2*BARILLET_AngleToNext);
+              if(barillet.goodenough()){
+                etapeChaos = PrepChaos;
+                }
+                break;
+        }
+      break ; 
+    }
 
 
 //    Serial.print("AVG ");Serial.print(sharpAVG.raw());Serial.print("\t");
@@ -195,9 +197,10 @@ void Mega::actuate()
 void Mega::init()
 {
     Serial2.begin(250000);
+    actionCourante=Distrib;
     evitting=false;
     elevator=Elevator(ELEVATOR_PIN_CONTACTEUR,ELEVATOR_PIN_CODEUSE_A,ELEVATOR_PIN_CODEUSE_B,ELEVATOR_TickToPos,ELEVATOR_PIN_MOTEUR_PWR,ELEVATOR_PIN_MOTEUR_SENS,ELEVATOR_PIN_MOTEUR_BRAKE);
-    barillet=Barillet(BARILLET_PIN_CONTACTEUR,BARILLET_PIN_CODEUSE_A,BARILLET_PIN_CODEUSE_B,BARILLET_TickToPos,BARILLET_PIN_MOTEUR_PWR,BARILLET_PIN_MOTEUR_SENS,BARILLET_PIN_MOTEUR_BRAKE);
+    barillet=Barillet(BARILLET_PIN_CONTACTEUR,BARILLET_PIN_CODEUSE_A,BARILLET_PIN_CODEUSE_B,BARILLET_TickToPos,BARILLET_PIN_MOTEUR_PWR,BARILLET_PIN_MOTEUR_SENS,BARILLET_PIN_MOTEUR_BRAKE, coteviolet, this);
     brasGauche=MegaServo(BRAS_GAUCHE_PIN,BRAS_GAUCHE_RETRACTED,BRAS_GAUCHE_HALF_RETRACTED,BRAS_GAUCHE_HALF_EXTENDED,BRAS_GAUCHE_EXTENDED);
     brasDroit=MegaServo(BRAS_DROIT_PIN,BRAS_DROIT_RETRACTED,BRAS_DROIT_HALF_RETRACTED,BRAS_DROIT_HALF_EXTENDED,BRAS_DROIT_EXTENDED);
     doigtGauche=MegaServo(DOIGT_GAUCHE_PIN,DOIGT_GAUCHE_RETRACTED,DOIGT_GAUCHE_HALF_RETRACTED,DOIGT_GAUCHE_HALF_EXTENDED,DOIGT_GAUCHE_EXTENDED);
@@ -217,11 +220,13 @@ void Mega::init()
     comm=Comm();
     elevator.init();
     Serial.println("Fin de la contaction de l'elevator. On remonte");
-    while (abs(elevator.codeuseElevator->pos - elevator.aim)>0.5)
+    while (abs(elevator.codeuseElevator->pos - elevator.aim)>0.005 || abs(elevator.codeuseElevator->dPos)>0.005)
     {
         actuate();
         delay(1);
     }
+    elevator.moteurElevator->order=0;
+    elevator.moteurElevator->actuate();
     Serial.println("Fin de la remontee de l'elevator. On fait tourner le barrillet");
     barillet.init();
     Serial.println("Fin de la contaction du barillet. On Se place");
@@ -231,8 +236,9 @@ void Mega::init()
         delay(1);
     }
     barillet.codeuseBarillet->reset();
-    Serial.println("Fin du palcement");
+    Serial.println("Fin du palcement, init terminee");
     millisInit=millis();
     millisActu=millis();
+    
 
 }

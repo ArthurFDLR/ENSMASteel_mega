@@ -1,5 +1,12 @@
 #include "Filtre.h"
 #include "Arduino.h"
+void Filtre::reset(float initValue)
+{
+  lastValue=initValue;
+  lastLastValue=initValue;
+  raw=initValue;
+  lastRaw=initValue;
+}
 
 void Filtre::in(float newRaw,float dt)
 {

@@ -2,7 +2,7 @@
 #define CODEUSE_INCLUDED
 
 #include "Arduino.h"
-#include "Encoder.h"
+
 
 class Codeuse
 {

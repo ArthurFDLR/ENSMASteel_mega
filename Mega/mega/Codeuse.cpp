@@ -120,14 +120,10 @@ Codeuse::Codeuse(bool needNormalize,uint8_t pin1,uint8_t pin2,float tickToPos)
   pins[ID][1]=pin2;
   if (ID==0)
   {
-    
-    attachInterrupt(digitalPinToInterrupt(pin1),handler0,CHANGE);
     attachInterrupt(digitalPinToInterrupt(pin2),handler1,CHANGE);
   }
   else
   {
-    
-    attachInterrupt(digitalPinToInterrupt(pin1),handler2,CHANGE);
     attachInterrupt(digitalPinToInterrupt(pin2),handler3,CHANGE);
   }
   ticks=0;

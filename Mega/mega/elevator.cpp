@@ -9,7 +9,7 @@ Elevator::Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse
   contacteurElevator=new Contacteur(pinContacteur);
   codeuseElevator=new Codeuse(false,pin1Codeuse,pin2Codeuse,tickToPos);
   aim=0;
-  pidElevator=new PID(false, 400.0, 0, 10.0, 50, 0);
+  pidElevator=new PID(false, 40000.0, 0, 1000.0, 50, 0);
 }
 
 Elevator::Elevator()
@@ -22,6 +22,7 @@ void Elevator::actuate(float dt)
     codeuseElevator->actuate(dt);
     moteurElevator->order=pidElevator->compute(dt,aim,codeuseElevator->pos,codeuseElevator->dPos);
     moteurElevator->actuate();
+    //Serial.print("posElev ");Serial.println(codeuseElevator->pos);
 }
 
 
