@@ -144,24 +144,27 @@ bool Barillet::init()
 //
 void Barillet::goTo(float angle)
 {
-    this->aim=codeuseBarillet->pos;
-    this->dAim=0.0;
-    tStartGoto=millis()/1000.0;
-    tFinGoto=tStartGoto + sqrt(4.0*(angle-codeuseBarillet->pos)/ACCBARILLET);
-    tInversion=(tFinGoto+tStartGoto)/2.0;
-    target=angle;
+    if (angle!=target)
+    {
+      this->aim=codeuseBarillet->pos;
+      this->dAim=0.0;
+      tStartGoto=millis()/1000.0;
+      tFinGoto=tStartGoto + sqrt(4.0*(angle-codeuseBarillet->pos)/ACCBARILLET);
+      tInversion=(tFinGoto+tStartGoto)/2.0;
+      target=angle;
+    }
 }
 
 void Barillet::goToDelta(float angle)
 {
-  goTo(codeuseBarillet->pos+angle);
+  goTo(normalizeBarillet(codeuseBarillet->pos+angle));
 }
 
 
 
 bool Barillet::goodenough()
 {
-    return (abs(normalizeBarillet(target - codeuseBarillet->pos))<0.02);
+    return (abs(normalizeBarillet(target - codeuseBarillet->pos))<0.02 && codeuseBarillet->dPos<0.02);
 }
 
 
