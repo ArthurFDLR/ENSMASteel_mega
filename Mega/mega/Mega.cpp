@@ -52,7 +52,16 @@ void Mega::actuate()
     case MessageE::Start_Chaos:
         actionCourante=Chaos;
         etapeChaos= PrepChaos;
+        comm.taken();
         break;
+     case MessageE::Jaune:
+        barillet.coteviolet=false;
+        comm.taken();
+        break;
+      case MessageE::Violet:
+        barillet.coteviolet=true;
+        comm.taken();
+      break;
     }
 
 
@@ -119,13 +128,18 @@ void Mega::actuate()
 
        if(sharpPaletD.getState()== Proximity )
        {
-        doigtDroit.set(Extended);
+        doigtDroit.set(Retracted);
        }
-       
+       else{
+        doigtDroit.set(Extended);
+        }
        if(sharpPaletG.getState()== Proximity )
        {
-        doigtGauche.set(Extended);
+        doigtGauche.set(Retracted);
        }
+       else{
+        doigtGauche.set(Extended);
+        }
 //--------------------------------------------------Sous actions------------------------
     switch(actionCourante)
     {
@@ -237,8 +251,13 @@ void Mega::init()
     }
     barillet.codeuseBarillet->reset();
     Serial.println("Fin du palcement, init terminee");
+//    while(1){
+//      actuate();   
+//    }
+    barillet.RedefinitionPosBleuium();
     millisInit=millis();
     millisActu=millis();
+    
     
 
 }

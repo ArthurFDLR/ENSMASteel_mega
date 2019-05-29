@@ -59,7 +59,7 @@ float normalizeBarillet(float theta)
 
 Barillet::Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake,bool coteviolet,Mega* ptrMega)
 {
-  pidBarillet=new PID(true,350.0,0,50.0,100,0);
+  pidBarillet=new PID(true,400.0,0,50.0,100,0);
   moteurBarillet=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
   codeuseBarillet=new Codeuse(true,pin1Codeuse,pin2Codeuse,tickToPos);
   contacteurBarillet=new Contacteur(pinContacteur);
@@ -76,7 +76,7 @@ void Barillet::actuate(float dt)
   //color->raw();
   //Serial.print("Color (R,B,V,Vide) ");Serial.println(color->getPaletCouleur());
   //Serial.print("pos barillet ");Serial.println(codeuseBarillet->pos);
-  Serial.print("Aim ");Serial.print(aim);Serial.print("\t target ");Serial.print(target);Serial.print("\t pos ");Serial.println(codeuseBarillet->pos);
+ // Serial.print("Aim ");Serial.print(aim);Serial.print("\t target ");Serial.print(target);Serial.print("\t pos ");Serial.println(codeuseBarillet->pos);
   if (millis()/1000.0<tInversion)
   {
     dAim+=ACCBARILLET*dt;
@@ -111,7 +111,7 @@ bool Barillet::init()
   while (!contacteurBarillet->isPressed() and t-tIni<20)
   {
     t=millis()/1000.0;
-    moteurBarillet->order=20;   //On fait tourner le barillet doucement
+    moteurBarillet->order=-20;   //On fait tourner le barillet doucement
     moteurBarillet->actuate();
   }
 
@@ -161,7 +161,7 @@ void Barillet::goToDelta(float angle)
 
 bool Barillet::goodenough()
 {
-    return (abs(normalizeBarillet(target - codeuseBarillet->pos))<0.01);
+    return (abs(normalizeBarillet(target - codeuseBarillet->pos))<0.02);
 }
 
 
@@ -173,9 +173,10 @@ bool Barillet::RedefinitionPosBleuium(){
     {
       Serial.println("je suis dans la boucle pour trouver la position");
       goTo(Poscellule1 + i*BARILLET_AngleToNext);
-      i++;
       ptrMega->actuate();
-      
+      if (goodenough()){
+      i++;
+      }
       }
       Serial.println("j'ai trouvé la position");
       if (coteviolet){ //si on est du coté violet on met le bleu à droite
