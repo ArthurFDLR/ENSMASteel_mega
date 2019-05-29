@@ -250,6 +250,7 @@ void Mega::init()
         delay(1);
     }
     barillet.codeuseBarillet->reset();
+    barillet.goTo(0.0);
     Serial.println("Fin du palcement, init terminee");
 //    while(1){
 //      actuate();   

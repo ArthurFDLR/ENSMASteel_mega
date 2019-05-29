@@ -59,7 +59,7 @@ float normalizeBarillet(float theta)
 
 Barillet::Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake,bool coteviolet,Mega* ptrMega)
 {
-  pidBarillet=new PID(true,400.0,0,50.0,100,0);
+  pidBarillet=new PID(true,600.0,0,70.0,100,0);
   moteurBarillet=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
   codeuseBarillet=new Codeuse(true,pin1Codeuse,pin2Codeuse,tickToPos);
   contacteurBarillet=new Contacteur(pinContacteur);
@@ -72,6 +72,13 @@ Barillet::Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse
 
 void Barillet::actuate(float dt)
 {
+  if (dt>1){
+    dt=0.01;
+  }
+  Serial.print("millis ");Serial.print(millis());
+  Serial.print("la target est : ");Serial.print(target);
+  Serial.print("l'aim est : ");Serial.print(aim);
+  Serial.print("la position est :");Serial.println(codeuseBarillet->pos);
   color->actuate();
   //color->raw();
   //Serial.print("Color (R,B,V,Vide) ");Serial.println(color->getPaletCouleur());
@@ -171,37 +178,48 @@ bool Barillet::goodenough()
 
 bool Barillet::RedefinitionPosBleuium(){ 
   
-  int i=0;
+  int i=1;
   bool bleutrouve=false;
+  goTo(normalizeBarillet(Poscellule1+BARILLET_AngleToNext));
   while (!bleutrouve and (i<6))// on fait tourner le barillet jusqu'à trouver le palet bleu
     {
       Serial.println("je suis dans la boucle pour trouver la position");
       Serial.println("la coleur lu est :"),Serial.println(color->getPaletCouleur());
-      color->actuate();
       ptrMega->actuate();
       if (goodenough()){
             moteurBarillet->order=0;   //On fait tourner le barillet doucement
             moteurBarillet->actuate();
-        if (color->getPaletCouleur() != 1){
+        if (color->getPaletCouleur() ==Bleu){
             bleutrouve= true;
         }
+        else
+        {
+        i++;
         goTo(normalizeBarillet(Poscellule1 + i*BARILLET_AngleToNext));
         Serial.print("le barillet a tourné de deux pos");
-      i++;
+        }
       }
+      delay(2);
     }
       Serial.println("j'ai trouvé la position");
-      if (coteviolet){ //si on est du coté violet on met le bleu à droite
-      while(!goodenough()){
-     goTo(normalizeBarillet(Poscellule1 + (i+3)*BARILLET_AngleToNext));
-      ptrMega->actuate();
+      if (coteviolet)
+      { //si on est du coté violet on met le bleu à droite
+        goTo(normalizeBarillet(Poscellule1 + (i+3)*BARILLET_AngleToNext));
+        while(!goodenough())
+        {
+          ptrMega->actuate();
+          delay(2);
+        }
       }
-  }
-  else {
-   while(!goodenough()){// si on est coté jaune on met le bleu à gauche
-   goTo(Poscellule1 + (i+1)*BARILLET_AngleToNext);
-   ptrMega->actuate();
-      }    
+      else 
+      {
+        goTo(Poscellule1 + (i+1)*BARILLET_AngleToNext);
+        while(!goodenough())
+        {// si on est coté jaune on met le bleu à gauche
+          ptrMega->actuate();
+          delay(2);
+        }    
     }
     codeuseBarillet->reset(); // maitenant le palet est du bon coté et à la bonne position
+    goTo(0.0);
   }
