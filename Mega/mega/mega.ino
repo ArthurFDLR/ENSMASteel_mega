@@ -11,7 +11,6 @@ void setup()
 //  mega.pompeD.suck();
   Serial.println("REBOOT");
   Serial.begin(250000);
-  //test
 
   mega.init();
  // mega.pompeG.suck();
