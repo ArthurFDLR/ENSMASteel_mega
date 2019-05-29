@@ -1,6 +1,6 @@
 #ifndef CONSTANTS
 #define CONSTANTS
-#define ACCBARILLET 5.0
+#define ACCBARILLET 3.0
 
 #define STATE
 //---------------------------------- PINS&Servo   --------------------------------
