@@ -11,9 +11,10 @@
 #include "Elevator.h"
 #include "Barillet.h"
 #include "Comm.h"
-enum actionCouranteE {Idle,Chaos,Distrib};
+enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePaletBleu};
 enum etapeChaosE {PrepChaos,DescentSouffletSol,RemontePalet,DeposeOneFloor,DeposeRemonte,TourneBarillet};
-
+enum etapeRecupGoldoniumE {Safety,Recup};
+enum etapePaletBleuE {SafetyPal,Pousse};
 class Mega
 {
 public:
@@ -27,6 +28,8 @@ public:
     Comm comm;
     actionCouranteE actionCourante;
     etapeChaosE etapeChaos;
+    etapeRecupGoldoniumE etapeRecupGoldonium;
+    etapePaletBleuE etapePaletBleu;
     int iPosBarillet=1;
     uint32_t millisInit,millisActu;
 
