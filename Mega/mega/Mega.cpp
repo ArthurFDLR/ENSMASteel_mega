@@ -249,6 +249,7 @@ void Mega::init()
     tirette=Contacteur(PIN_TIRETTE);
     comm=Comm();
     elevator.init();
+
 #ifdef STATE
     Serial.println("Fin de la contaction de l'elevator. On remonte");
 #endif // STATE

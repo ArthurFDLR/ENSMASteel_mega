@@ -35,6 +35,7 @@ public:
     Cellule* cellule[6];
     Color* color;
     Mega* ptrMega ;
+    float accBarillet=ACCBARILLETSTD;
     bool init();
     bool RedefinitionPosBleuium();
   //  void addPalet(int cellId, PaletE couleur);

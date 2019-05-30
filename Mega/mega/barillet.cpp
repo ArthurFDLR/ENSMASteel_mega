@@ -66,6 +66,7 @@ Barillet::Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse
   this->coteviolet=coteviolet;
   this->ptrMega=ptrMega;
   color=new Color(true);
+  accBarillet=ACCBARILLETSTD;
   aim=0.0;
   dAim=0.0;
 }
@@ -83,15 +84,15 @@ void Barillet::actuate(float dt)
   //color->raw();
   //Serial.print("Color (R,B,V,Vide) ");Serial.println(color->getPaletCouleur());
   //Serial.print("pos barillet ");Serial.println(codeuseBarillet->pos);
- // Serial.print("Aim ");Serial.print(aim);Serial.print("\t target ");Serial.print(target);Serial.print("\t pos ");Serial.println(codeuseBarillet->pos);
+  //Serial.print("Aim ");Serial.print(aim);Serial.print("\t target ");Serial.print(target);Serial.print("\t pos ");Serial.println(codeuseBarillet->pos);
   if (millis()/1000.0<tInversion)
   {
-    dAim+=ACCBARILLET*dt;
+    dAim+=accBarillet*dt;
     aim=normalizeBarillet(aim+dAim*dt);
   }
   else if(millis()/1000.0<tFinGoto)
   {
-      dAim-=ACCBARILLET*dt;
+      dAim-=accBarillet*dt;
       aim=normalizeBarillet(aim+dAim*dt);
   }
   else
@@ -122,11 +123,11 @@ bool Barillet::init()
     moteurBarillet->actuate();
   }
 
-  moteurBarillet->order=0;// On arrete l'elevateur
+  moteurBarillet->order=0;// On arrete le barillet
   moteurBarillet->actuate();
   codeuseBarillet->reset(); // On initialise la position
-  goTo(0.0);
   pidBarillet->reset();
+  goTo(0.0);
 
 
   // definition des positions du barillet par rapport à l'origine
@@ -153,12 +154,17 @@ bool Barillet::init()
 void Barillet::goTo(float angle)
 {
     angle=normalizeBarillet(angle);
+    angle=codeuseBarillet->pos + normalizeBarillet(angle - codeuseBarillet->pos);
     if (angle!=target)
     {
+      if (normalizeBarillet(angle-codeuseBarillet->pos)>0)
+        accBarillet=ACCBARILLETSTD;
+      else
+        accBarillet=-ACCBARILLETSTD;
       this->aim=codeuseBarillet->pos;
       this->dAim=0.0;
       tStartGoto=millis()/1000.0;
-      tFinGoto=tStartGoto + sqrt(4.0*(angle-codeuseBarillet->pos)/ACCBARILLET);
+      tFinGoto=tStartGoto + sqrt(4.0*abs(normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD);
       tInversion=(tFinGoto+tStartGoto)/2.0;
       target=angle;
     }
@@ -169,10 +175,14 @@ void Barillet::goToDelta(float angle)
       angle=normalizeBarillet(normalizeBarillet(angle)+normalizeBarillet(target));
     if (angle!=target)
     {
+      if (normalizeBarillet(angle-codeuseBarillet->pos)>0)
+        accBarillet=ACCBARILLETSTD;
+      else
+        accBarillet=-ACCBARILLETSTD;
       this->aim=codeuseBarillet->pos;
       this->dAim=0.0;
       tStartGoto=millis()/1000.0;
-      tFinGoto=tStartGoto + sqrt(4.0*(angle-codeuseBarillet->pos)/ACCBARILLET);
+      tFinGoto=tStartGoto + sqrt(4.0*abs(normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD);
       tInversion=(tFinGoto+tStartGoto)/2.0;
       target=angle;
     }
