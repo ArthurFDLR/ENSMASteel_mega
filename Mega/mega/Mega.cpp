@@ -68,8 +68,8 @@ void Mega::actuate()
         etapeRecupGoldonium=Safety;
         comm.taken();
      break;
-     case MessageE::Idle:
-        actionCourante=Idle;
+     case MessageE::idleM:
+        actionCouranteE=Idle;
         comm.taken();
      break;
 
@@ -84,8 +84,8 @@ void Mega::actuate()
         etapePaletBleu=SafetyPal;
         comm.taken();
      break;
-     case MessageE::DeposePaletSol:
-        actionCourante=DeposePaletSol;
+     case MessageE::DeposePaletSolM:
+        actionCourante=DeposePaletSolA;
         etapeDeposePaletSol=SafetyEtapeDeposePaletSol;
         comm.taken();
      break;
@@ -282,7 +282,7 @@ void Mega::actuate()
             case(Idle):
                 //Se toucher la nouille
                 break;
-      case(DeposePaletSol):
+      case(DeposePaletSolA):
            switch(etapeDeposePaletSol){
             case(SafetyEtapeDeposePaletSol):
             elevator.aim=AIMAboveBarel;
@@ -325,7 +325,7 @@ void Mega::actuate()
             if(barillet.goodenough()and iPosBarillet<6)
             {
                 iPosBarillet++;
-                etapeDeposePaletSol = (SafetyetapeDeposePaletSol) ;
+                etapeDeposePaletSol = (SafetyEtapeDeposePaletSol) ;
             }
             break;
             }
