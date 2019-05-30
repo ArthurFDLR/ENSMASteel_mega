@@ -166,7 +166,16 @@ void Barillet::goTo(float angle)
 
 void Barillet::goToDelta(float angle)
 {
-  goTo(normalizeBarillet(codeuseBarillet->pos+angle));
+      angle=normalizeBarillet(normalizeBarillet(angle)+normalizeBarillet(target));
+    if (angle!=target)
+    {
+      this->aim=codeuseBarillet->pos;
+      this->dAim=0.0;
+      tStartGoto=millis()/1000.0;
+      tFinGoto=tStartGoto + sqrt(4.0*(angle-codeuseBarillet->pos)/ACCBARILLET);
+      tInversion=(tFinGoto+tStartGoto)/2.0;
+      target=angle;
+    }
 }
 
 

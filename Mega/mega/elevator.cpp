@@ -9,7 +9,7 @@ Elevator::Elevator(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse
   contacteurElevator=new Contacteur(pinContacteur);
   codeuseElevator=new Codeuse(false,pin1Codeuse,pin2Codeuse,tickToPos);
   aim=0;
-  pidElevator=new PID(false, 40000.0, 0, 1000.0, 50, 0);
+  pidElevator=new PID(false, 50000.0, 0, 1000.0, 50, 0);
 }
 
 Elevator::Elevator()

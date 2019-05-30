@@ -27,6 +27,7 @@ public:
     Comm comm;
     actionCouranteE actionCourante;
     etapeChaosE etapeChaos;
+    int iPosBarillet=1;
     uint32_t millisInit,millisActu;
 
     void actuate();

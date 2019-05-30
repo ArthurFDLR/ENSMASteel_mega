@@ -50,18 +50,19 @@ void Mega::actuate()
         comm.taken();
         break;
     case MessageE::Start_Chaos:
+        Serial.println("START CHAOS");
         actionCourante=Chaos;
         etapeChaos= PrepChaos;
         comm.taken();
         break;
-     case MessageE::Jaune:
+    case MessageE::Jaune:
         barillet.coteviolet=false;
         comm.taken();
         break;
-      case MessageE::Violet:
+    case MessageE::Violet:
         barillet.coteviolet=true;
         comm.taken();
-      break;
+        break;
     }
 
 
@@ -73,18 +74,18 @@ void Mega::actuate()
             if(!evitting)
                 comm.send(Evitemment);
             evitting=true;
-            #ifdef STATE
+#ifdef STATE
             Serial.println("Evitemment avant");
-            #endif // STATE
+#endif // STATE
         }
         else
         {
             if (evitting)
             {
                 comm.send(Evitemment_Clear);
-                #ifdef STATE
+#ifdef STATE
                 Serial.println("Fin evitemment");
-                #endif // STATE
+#endif // STATE
                 evitting=false;
             }
 
@@ -98,18 +99,18 @@ void Mega::actuate()
             if(!evitting)
                 comm.send(Evitemment);
             evitting=true;
-            #ifdef STATE
+#ifdef STATE
             Serial.println("Evitemment Arriere");
-            #endif // STATE
+#endif // STATE
         }
         else
         {
             if (evitting)
             {
                 comm.send(Evitemment_Clear);
-                #ifdef STATE
+#ifdef STATE
                 Serial.println("Fin evitemment");
-                #endif // STATE
+#endif // STATE
                 evitting=false;
             }
         }
@@ -117,84 +118,97 @@ void Mega::actuate()
 
     if(evitting && comm.anticol==AnticolE::No)
     {
-        #ifdef STATE
+#ifdef STATE
         Serial.print("Fin evitemment");
-        #endif // STATE
+#endif // STATE
         comm.send(Evitemment_Clear);
         evitting=false;
     }
 
 //--------------------------------------------------doigt bloc palet-------------------------
 
-       if(sharpPaletD.getState()== Proximity )
-       {
+    if(sharpPaletD.getState()== Proximity )
+    {
         doigtDroit.set(Retracted);
-       }
-       else{
+    }
+    else
+    {
         doigtDroit.set(Extended);
-        }
-       if(sharpPaletG.getState()== Proximity )
-       {
+    }
+    if(sharpPaletG.getState()== Proximity )
+    {
         doigtGauche.set(Retracted);
-       }
-       else{
+    }
+    else
+    {
         doigtGauche.set(Extended);
-        }
+    }
 
 
 //--------------------------------------------------Sous actions------------------------
     switch(actionCourante)
     {
-      case (Chaos):
+    case (Chaos):
         switch(etapeChaos)
         {
         case (PrepChaos):
-         pompeD.stop();
-         pompeG.stop();
-         brasDroit.set(Retracted);
-         brasGauche.set(Retracted);
-         elevator.aim=AIMAboveBarel;
-         if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.005 and sharpPaletD.getState()==Alerte and sharpPaletG.getState()==Alerte){
-           etapeChaos= DescentSouffletSol;
-         }
-        break;
+            pompeD.stop();
+            pompeG.stop();
+            brasDroit.set(Retracted);
+            brasGauche.set(Retracted);
+            elevator.aim=AIMAboveBarel;
+            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.005 and sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity)
+            {
+                etapeChaos= DescentSouffletSol;
+            }
+            break;
         case (DescentSouffletSol):
-             pompeD.suck();
-             pompeG.suck();
-             elevator.aim=AIMTakeOnFloor;
-             if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001 and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
-                  etapeChaos = RemontePalet;
-             }
-             //contremesure descendre plus bas mais peu se faire indéfiniment, on fait confiance aux pompes
-        break;
+            pompeD.suck();
+            pompeG.suck();
+            elevator.aim=AIMTakeOnFloor;
+            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
+            {
+                etapeChaos = RemontePalet;
+            }
+            //contremesure descendre plus bas mais peu se faire indéfiniment, on fait confiance aux pompes
+            break;
         case (RemontePalet):
-             elevator.aim=AIMAboveFinger;
-             if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+            elevator.aim=AIMAboveFinger;
+            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001)
+            {
                 etapeChaos = DeposeOneFloor;
-             }
-         break;
-         case (DeposeOneFloor):
-              elevator.aim=AIMDepositOneFloor;
-              if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+            }
+            break;
+        case (DeposeOneFloor):
+            elevator.aim=AIMDepositOneFloor;
+            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001)
+            {
                 etapeChaos = DeposeRemonte;
-              }
-              break;
-          case(DeposeRemonte):
-              pompeD.blow();
-              pompeG.blow();
-              elevator.aim=AIMAboveBarel;
-              if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
+            }
+            break;
+        case(DeposeRemonte):
+            pompeD.stop();
+            pompeG.stop();
+            elevator.aim=AIMAboveBarel;
+            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
+            {
                 etapeChaos = TourneBarillet;
-              }
-              break;
-         case (TourneBarillet):
-              barillet.goToDelta(2*BARILLET_AngleToNext);
-              if(barillet.goodenough()){
+                Serial.println("je passe au tourne palet");
+            }
+            break;
+        case (TourneBarillet):
+
+            Serial.println("je suis dans tourne palet mais je ne tourne pas");
+            //barillet.goToDelta(2.0*iPosBarillet*BARILLET_AngleToNext);
+            barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
+            if(barillet.goodenough())
+            {
+                iPosBarillet++;
                 etapeChaos = PrepChaos;
-                }
-                break;
+            }
+            break;
         }
-      break ;
+        break ;
     }
 
 
@@ -235,9 +249,9 @@ void Mega::init()
     tirette=Contacteur(PIN_TIRETTE);
     comm=Comm();
     elevator.init();
-    #ifdef STATE
+#ifdef STATE
     Serial.println("Fin de la contaction de l'elevator. On remonte");
-    #endif // STATE
+#endif // STATE
     while (abs(elevator.codeuseElevator->pos - elevator.aim)>0.005 || abs(elevator.codeuseElevator->dPos)>0.005)
     {
         actuate();
@@ -245,13 +259,13 @@ void Mega::init()
     }
     elevator.moteurElevator->order=0;
     elevator.moteurElevator->actuate();
-    #ifdef STATE
+#ifdef STATE
     Serial.println("Fin de la remontee de l'elevator. On fait tourner le barrillet");
-    #endif // STATE
+#endif // STATE
     barillet.init();
-    #ifdef STATE
+#ifdef STATE
     Serial.println("Fin de la contaction du barillet. On Se place");
-    #endif // STATE
+#endif // STATE
     while (!barillet.goodenough())
     {
         actuate();
@@ -260,10 +274,10 @@ void Mega::init()
     barillet.codeuseBarillet->reset();
     barillet.goTo(0.0);
 
-    #ifdef STATE
+#ifdef STATE
     Serial.println("Fin du palcement, init terminee");
-    #endif // STATE
-    barillet.RedefinitionPosBleuium();
+#endif // STATE
+    //barillet.RedefinitionPosBleuium();
     millisInit=millis();
     millisActu=millis();
 
