@@ -80,6 +80,11 @@ void Mega::actuate()
         etapePaletBleu=SafetyPal;
         comm.taken();
      break;
+     case MessageE::DeposePaletSol:
+        actionCourante=DeposePaletSol;
+        etapeDeposePaletSol=SafetyEtapeDeposePaletSol;
+        comm.taken();
+     break;
     }
 
 
@@ -272,7 +277,7 @@ void Mega::actuate()
  //------------------------------------depose sol-------------------------      
       case(DeposePaletSol):
            switch(etapeDeposePaletSol){
-            case(SafetyetapeDeposePaletSol):
+            case(SafetyEtapeDeposePaletSol):
             elevator.aim=AIMAboveBarel;
             if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
             {
@@ -310,10 +315,10 @@ void Mega::actuate()
             break;
             case(TourneBarilletPourDeposeSol):
             barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
-            if(barillet.goodenough()and iPosBarillet)
+            if(barillet.goodenough()and iPosBarillet<6)
             {
                 iPosBarillet++;
-                etapeDeposePaletSol = PrepChaos;
+                etapeDeposePaletSol = (SafetyetapeDeposePaletSol) ;
             }
             break;
             }      
@@ -364,7 +369,6 @@ void Mega::init()
     tirette=Contacteur(PIN_TIRETTE);
     comm=Comm();
     elevator.init();
-
 #ifdef STATE
     Serial.println("Fin de la contaction de l'elevator. On remonte");
 #endif // STATE
