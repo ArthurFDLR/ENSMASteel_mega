@@ -258,7 +258,11 @@ void Mega::init()
         delay(1);
     }
     barillet.codeuseBarillet->reset();
+<<<<<<< HEAD
     #ifdef STATE
+=======
+    barillet.goTo(0.0);
+>>>>>>> 62e894fd4d4a520c1cd7ba68fb2f7bc74b2ac446
     Serial.println("Fin du palcement, init terminee");
     #endif // STATE
     millisInit=millis();
