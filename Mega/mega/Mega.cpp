@@ -68,6 +68,10 @@ void Mega::actuate()
         etapeRecupGoldonium=Safety;
         comm.taken();
      break;
+     case MessageE::Idle:
+        actionCourante=Idle;
+        comm.taken();
+     break;
 
      case MessageE::Depose_Goldonium:
         actionCourante=DeposeGoldonium;
@@ -144,7 +148,7 @@ void Mega::actuate()
 
 //--------------------------------------------------doigt bloc palet-------------------------
 
-    if(sharpPaletD.getState()== Proximity )
+    if(sharpPaletD.getState()== Proximity && actionCourante==actionCouranteE::Chaos)
     {
         doigtDroit.set(Retracted);
     }
@@ -152,7 +156,7 @@ void Mega::actuate()
     {
         doigtDroit.set(Extended);
     }
-    if(sharpPaletG.getState()== Proximity )
+    if(sharpPaletG.getState()== Proximity && actionCourante==actionCouranteE::Chaos )
     {
         doigtGauche.set(Retracted);
     }
@@ -243,7 +247,7 @@ void Mega::actuate()
               elevator.aim=AIMBlueiumAcceleratorLevel;
             break;
           }
- //---------------------------------------action deposegoldo goldo---------------------------- 
+ //---------------------------------------action deposegoldo goldo----------------------------
             case(DeposeGoldonium):
              elevator.aim=AIMBalanceLevel;
             if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
@@ -269,14 +273,17 @@ void Mega::actuate()
             break;
                   }
                   break;
- //------------------------------------depose sol-------------------------      
+ //------------------------------------depose sol-------------------------
+            case(Idle):
+                //Se toucher la nouille
+                break;
       case(DeposePaletSol):
            switch(etapeDeposePaletSol){
             case(SafetyetapeDeposePaletSol):
             elevator.aim=AIMAboveBarel;
             if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
             {
-              
+
                 etapeDeposePaletSol = AttrapePaletBarillet;
             }
             break;
@@ -305,7 +312,7 @@ void Mega::actuate()
               pompeD.stop();
               pompeG.stop();
               etapeDeposePaletSol = TourneBarilletPourDeposeSol;
-              
+
             }
             break;
             case(TourneBarilletPourDeposeSol):
@@ -316,13 +323,13 @@ void Mega::actuate()
                 etapeDeposePaletSol = PrepChaos;
             }
             break;
-            }      
-            
-            
-              
-           
-     
-        
+            }
+
+
+
+
+
+
         break ;
     }
 
