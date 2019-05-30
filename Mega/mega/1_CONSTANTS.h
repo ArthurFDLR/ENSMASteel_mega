@@ -109,7 +109,7 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 #define ELEVATOR_TickToPos            40000 //80000
 #define AIMReadyToTakeOnFloor         0.03 // a determiner exp
 #define AIMTakeOnFloor                0.0055
-#define AIMAboveFinger                0.11
+#define AIMAboveFinger                0.12
 #define AIMDepositOneFloor            0.08
 #define AIMDepositeTwoFloor           0.105
 #define AIMDepositThreeFloor          0.13
