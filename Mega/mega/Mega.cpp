@@ -140,6 +140,8 @@ void Mega::actuate()
        else{
         doigtGauche.set(Extended);
         }
+
+
 //--------------------------------------------------Sous actions------------------------
     switch(actionCourante)
     {
@@ -170,7 +172,7 @@ void Mega::actuate()
              if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
                 etapeChaos = DeposeOneFloor;
              }
-         break;     
+         break;
          case (DeposeOneFloor):
               elevator.aim=AIMDepositOneFloor;
               if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
@@ -180,9 +182,9 @@ void Mega::actuate()
           case(DeposeRemonte):
               pompeD.blow();
               pompeG.blow();
-              elevator.aim=AIMAboveBarel; 
+              elevator.aim=AIMAboveBarel;
               if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001){
-                etapeChaos = TourneBarillet; 
+                etapeChaos = TourneBarillet;
               }
               break;
          case (TourneBarillet):
@@ -192,7 +194,7 @@ void Mega::actuate()
                 }
                 break;
         }
-      break ; 
+      break ;
     }
 
 
@@ -233,7 +235,9 @@ void Mega::init()
     tirette=Contacteur(PIN_TIRETTE);
     comm=Comm();
     elevator.init();
+    #ifdef STATE
     Serial.println("Fin de la contaction de l'elevator. On remonte");
+    #endif // STATE
     while (abs(elevator.codeuseElevator->pos - elevator.aim)>0.005 || abs(elevator.codeuseElevator->dPos)>0.005)
     {
         actuate();
@@ -241,23 +245,25 @@ void Mega::init()
     }
     elevator.moteurElevator->order=0;
     elevator.moteurElevator->actuate();
+    #ifdef STATE
     Serial.println("Fin de la remontee de l'elevator. On fait tourner le barrillet");
+    #endif // STATE
     barillet.init();
+    #ifdef STATE
     Serial.println("Fin de la contaction du barillet. On Se place");
+    #endif // STATE
     while (!barillet.goodenough())
     {
         actuate();
         delay(1);
     }
     barillet.codeuseBarillet->reset();
+    #ifdef STATE
     Serial.println("Fin du palcement, init terminee");
-//    while(1){
-//      actuate();   
-//    }
-    barillet.RedefinitionPosBleuium();
+    #endif // STATE
     millisInit=millis();
     millisActu=millis();
-    
-    
+
+
 
 }
