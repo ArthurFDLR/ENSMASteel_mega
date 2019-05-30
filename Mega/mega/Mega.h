@@ -32,7 +32,7 @@ public:
     void actuate();
     void init();
 
-    bool coteviolet = true ; 
+    bool coteviolet = false ;
 
 private:
     bool evitting;

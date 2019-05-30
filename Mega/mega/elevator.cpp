@@ -47,7 +47,6 @@ bool Elevator::init()
   if (t-tIni1>=20)return false;
   else
   {
-    Serial.println("Elevator: remise a zero");
     codeuseElevator->reset();
     aim=AIMAboveBarel;
     return true;
