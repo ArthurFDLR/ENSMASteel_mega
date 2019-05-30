@@ -15,7 +15,7 @@ enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePa
 enum etapeChaosE {PrepChaos,DescentSouffletSol,RemontePalet,DeposeOneFloor,DeposeRemonte,TourneBarillet};
 enum etapeRecupGoldoniumE {Safety,Recup};
 enum etapePaletBleuE {SafetyPal,Pousse};
-enum etapeDeposePaletSolE {SafetyEtapeDeposePaletSol,AttrapePaletBarillet,RemontePaletPourDeposeSol,TourneBarilletPourDeposeSol};
+enum etapeDeposePaletSolE {SafetyEtapeDeposePaletSol,PretADeposeSol,AttrapePaletBarillet,RemontePaletPourDepose,TourneBarilletPourDeposeSol};
 class Mega
 {
 public:
@@ -27,10 +27,15 @@ public:
     Sharp sharpAVG,sharpAVD,sharpARG,sharpARD,sharpPaletG,sharpPaletD,AmperemetrePompeGauche,AmperemetrePompeDroit;
     Contacteur tirette;
     Comm comm;
+
     actionCouranteE actionCourante;
+
     etapeChaosE etapeChaos;
     etapeRecupGoldoniumE etapeRecupGoldonium;
     etapePaletBleuE etapePaletBleu;
+    etapeDeposePaletSolE etapeDeposePaletSol;
+
+
     int iPosBarillet=1;
     uint32_t millisInit,millisActu;
 
@@ -38,9 +43,12 @@ public:
     void init();
 
     bool coteviolet = false ;
+    void startTimer();
+    bool timerDelay(float delta);
 
 private:
     bool evitting;
+    float tTimerStart;
 
 
 };

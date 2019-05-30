@@ -17,6 +17,12 @@ Elevator::Elevator()
 
 }
 
+bool Elevator::goodenough()
+{
+    return abs(codeuseElevator->pos-aim)<0.005  && abs(codeuseElevator->dPos)<0.005;
+}
+
+
 void Elevator::actuate(float dt)
 {
     codeuseElevator->actuate(dt);

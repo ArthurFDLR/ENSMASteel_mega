@@ -3,6 +3,17 @@
 
 
 
+void Mega::startTimer()
+{
+    tTimerStart=millis()/1000.0;
+}
+
+bool Mega::timerDelay(float delta)
+{
+    return millis()/1000.0-(tTimerStart+delta)>0;
+}
+
+
 
 void Mega::actuate()
 {
@@ -68,8 +79,8 @@ void Mega::actuate()
         etapeRecupGoldonium=Safety;
         comm.taken();
      break;
-     case MessageE::idleM:
-        actionCouranteE=Idle;
+     case MessageE::IdleM:
+        actionCourante=Idle;
         comm.taken();
      break;
 
@@ -183,7 +194,7 @@ void Mega::actuate()
             brasDroit.set(Retracted);
             brasGauche.set(Retracted);
             elevator.aim=AIMAboveBarel;
-            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.005 and sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity)
+            if (elevator.goodenough() and sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity)
             {
                 etapeChaos= DescentSouffletSol;
             }
@@ -192,7 +203,7 @@ void Mega::actuate()
             pompeD.suck();
             pompeG.suck();
             elevator.aim=AIMTakeOnFloor;
-            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
+            if (elevator.goodenough()) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
             {
                 etapeChaos = RemontePalet;
             }
@@ -200,14 +211,14 @@ void Mega::actuate()
             break;
         case (RemontePalet):
             elevator.aim=AIMAboveFinger;
-            if (abs(elevator.codeuseElevator->pos-elevator.aim)<0.001)
+            if (elevator.goodenough())
             {
                 etapeChaos = DeposeOneFloor;
             }
             break;
         case (DeposeOneFloor):
             elevator.aim=AIMDepositOneFloor;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.001)
+            if(elevator.goodenough())
             {
                 etapeChaos = DeposeRemonte;
             }
@@ -216,7 +227,7 @@ void Mega::actuate()
             pompeD.stop();
             pompeG.stop();
             elevator.aim=AIMAboveBarel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
+            if(elevator.goodenough())
             {
                 etapeChaos = TourneBarillet;
                 Serial.println("je passe au tourne palet");
@@ -234,15 +245,16 @@ void Mega::actuate()
             }
             break;
         }
+        break; //Fin Chao
  //---------------------------------------action recup goldo----------------------------
         case (RecupGoldonium):
           switch(etapeRecupGoldonium){
            case(Safety):
                elevator.aim=AIMAboveBarel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-                etapeRecupGoldonium = Recup;
-            }
+                if(elevator.goodenough() )
+                {
+                    etapeRecupGoldonium = Recup;
+                }
            break;
             case(Recup):
               pompeD.suck();
@@ -252,89 +264,84 @@ void Mega::actuate()
               elevator.aim=AIMBlueiumAcceleratorLevel;
             break;
           }
+          break; //Fin recupGOld
  //---------------------------------------action deposegoldo goldo----------------------------
-            case(DeposeGoldonium):
-             elevator.aim=AIMBalanceLevel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
+        case(DeposeGoldonium):
+            elevator.aim=AIMBalanceLevel;
+            if(elevator.goodenough())
             {
                 pompeD.stop();
                 pompeG.stop();
             }
             break;
 //-----------------------------------------On pousse le palet bleu--------------------------------
-            case(PoussePaletBleu):
-                  switch(etapePaletBleu){
-                      case(SafetyPal):
-               elevator.aim=AIMAboveBarel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-                etapePaletBleu = Pousse;
-            }
-           break;
-            case(Pousse):
-              brasDroit.set(Extended);
-              brasGauche.set(Extended);
-              elevator.aim=AIMInAccelerator -0.02;
-            break;
-                  }
-                  break;
- //------------------------------------depose sol-------------------------
-            case(Idle):
-                //Se toucher la nouille
+        case(PoussePaletBleu):
+            switch(etapePaletBleu){
+                case(SafetyPal):
+                    elevator.aim=AIMAboveBarel;
+                    if(elevator.goodenough())
+                    {
+                        etapePaletBleu = Pousse;
+                    }
                 break;
-      case(DeposePaletSolA):
+                case(Pousse):
+                    brasDroit.set(Extended);
+                    brasGauche.set(Extended);
+                    elevator.aim=AIMInAccelerator -0.02;
+                break;
+            }
+        break;
+ //------------------------------------depose sol-------------------------
+        case(Idle):
+            //Se toucher la nouille
+        break;
+        case(DeposePaletSolA):
            switch(etapeDeposePaletSol){
-            case(SafetyEtapeDeposePaletSol):
-            elevator.aim=AIMAboveBarel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-
-                etapeDeposePaletSol = AttrapePaletBarillet;
-            }
-            break;
-            case (AttrapePaletBarillet):
-              pompeD.suck();
-              pompeG.suck();
-              brasDroit.set(Retracted);
-              brasGauche.set(Retracted);
-            elevator.aim=AIMTakeOneFloor;
-                 if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-                etapeDeposePaletSol = (RemontePaletPourDepose);
-            }
-            break;
-            case(RemontePaletPourDepose):
-                        elevator.aim=AIMAboveBarel;
-            if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-                etapeDeposePaletSol = PretADeposeSol;
-            }
-            break;
-            case(PretADeposeSol):
-                elevator.aim=AIMDistribLevel;
-                    if(abs(elevator.codeuseElevator->pos-elevator.aim)<0.005)
-            {
-              pompeD.stop();
-              pompeG.stop();
-              etapeDeposePaletSol = TourneBarilletPourDeposeSol;
-
-            }
-            break;
-            case(TourneBarilletPourDeposeSol):
-            barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
-            if(barillet.goodenough()and iPosBarillet<6)
-            {
-                iPosBarillet++;
-                etapeDeposePaletSol = (SafetyEtapeDeposePaletSol) ;
-            }
-            break;
-            }
-
-
-
-
-
-
+                case(SafetyEtapeDeposePaletSol):
+                elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough())
+                {
+                    etapeDeposePaletSol = AttrapePaletBarillet;
+                }
+                break;
+                case (AttrapePaletBarillet):
+                    pompeD.suck();
+                    pompeG.suck();
+                    brasDroit.set(Retracted);
+                    brasGauche.set(Retracted);
+                    elevator.aim=AIMTakeOneFloor;
+                    if(elevator.goodenough())
+                    {
+                        etapeDeposePaletSol = RemontePaletPourDepose;
+                    }
+                    break;
+                case(RemontePaletPourDepose):
+                    elevator.aim=AIMAboveBarel;
+                    if(elevator.goodenough())
+                    {
+                        etapeDeposePaletSol = PretADeposeSol;
+                        startTimer();
+                    }
+                break;
+                case(PretADeposeSol):
+                    brasDroit.set(Extended);
+                    brasGauche.set(Extended);
+                    if(elevator.goodenough() && timerDelay(0.5))
+                    {
+                        pompeD.stop();
+                        pompeG.stop();
+                        etapeDeposePaletSol = TourneBarilletPourDeposeSol;
+                    }
+                break;
+                case(TourneBarilletPourDeposeSol):
+                    barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
+                    if(barillet.goodenough()and iPosBarillet<6)
+                    {
+                        iPosBarillet++;
+                        etapeDeposePaletSol = (SafetyEtapeDeposePaletSol) ;
+                    }
+                break;
+                }
         break ;
     }
 

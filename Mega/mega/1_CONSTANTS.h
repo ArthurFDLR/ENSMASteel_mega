@@ -1,6 +1,6 @@
 #ifndef CONSTANTS
 #define CONSTANTS
-#define ACCBARILLET 3.0
+#define ACCBARILLETSTD 4.0
 
 #define STATE
 //---------------------------------- PINS&Servo   --------------------------------
@@ -137,7 +137,7 @@ enum ElevatorStateE
 enum MessageE
 {
     Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done,
-    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletsSol,IdleM}
+    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletSolM,IdleM}
 ;
 
 
