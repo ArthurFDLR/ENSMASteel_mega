@@ -59,7 +59,7 @@ float normalizeBarillet(float theta)
 
 Barillet::Barillet(uint8_t pinContacteur,uint8_t pin1Codeuse,uint8_t pin2Codeuse,float tickToPos,uint8_t pinMoteurPwr,uint8_t pinMoteurSens,uint8_t pinMoteurBrake,bool coteviolet,Mega* ptrMega)
 {
-  pidBarillet=new PID(true,600.0,0,70.0,100,0);
+  pidBarillet=new PID(true,700.0,0,75.0,100,0);
   moteurBarillet=new Motor(pinMoteurPwr,pinMoteurSens,pinMoteurBrake);
   codeuseBarillet=new Codeuse(true,pin1Codeuse,pin2Codeuse,tickToPos);
   contacteurBarillet=new Contacteur(pinContacteur);
@@ -160,7 +160,7 @@ void Barillet::goTo(float angle)
       if (normalizeBarillet(angle-codeuseBarillet->pos)>0)
         accBarillet=ACCBARILLETSTD;
       else
-        accBarillet=-ACCBARILLETSTD; 
+        accBarillet=-ACCBARILLETSTD;
       this->aim=codeuseBarillet->pos;
       this->dAim=0.0;
       tStartGoto=millis()/1000.0;

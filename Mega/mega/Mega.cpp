@@ -240,8 +240,10 @@ void Mega::actuate()
                 iPosBarillet++;
                 etapeChaos = PrepChaos;
                 if (iPosBarillet==4)
+                {
                     actionCourante=Idle;
                     barillet.RedefinitionPosBleuium();
+                }
             }
             break;
         }

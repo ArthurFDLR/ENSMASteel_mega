@@ -133,11 +133,11 @@ enum ElevatorStateE
 
 // --------------------------------- Messages ---------------------------------
 
-#define NB_MESSAGES 22
+#define NB_MESSAGES 23
 enum MessageE
 {
     Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done,
-    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletSolM,IdleM}
+    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletSolM,IdleM,Em_Stop}
 ;
 
 
