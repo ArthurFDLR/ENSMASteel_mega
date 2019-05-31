@@ -197,7 +197,7 @@ void Mega::actuate()
             brasDroit.set(Retracted);
             brasGauche.set(Retracted);
             elevator.aim=AIMAboveBarel;
-            if (elevator.goodenough() and sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity)
+            if (elevator.goodenough() && (sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity))
             {
                 etapeChaos= DescentSouffletSol;
             }
@@ -206,7 +206,7 @@ void Mega::actuate()
             pompeD.suck();
             pompeG.suck();
             elevator.aim=AIMTakeOnFloor;
-            if (elevator.goodenough()) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
+            if (elevator.goodenough() ) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
             {
                 etapeChaos = RemontePalet;
             }
@@ -233,18 +233,18 @@ void Mega::actuate()
             if(elevator.goodenough())
             {
                 etapeChaos = TourneBarillet;
-                Serial.println("je passe au tourne palet");
             }
             break;
         case (TourneBarillet):
-
-            Serial.println("je suis dans tourne palet mais je ne tourne pas");
             //barillet.goToDelta(2.0*iPosBarillet*BARILLET_AngleToNext);
             barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
             if(barillet.goodenough())
             {
                 iPosBarillet++;
                 etapeChaos = PrepChaos;
+                if (iPosBarillet==4)
+                    actionCourante=Idle;
+                    barillet.RedefinitionPosBleuium();
             }
             break;
         }
@@ -305,6 +305,7 @@ void Mega::actuate()
                 if(elevator.goodenough())
                 {
                     etapeDeposePaletSol = AttrapePaletBarillet;
+                    startTimer();
                 }
                 break;
                 case (AttrapePaletBarillet):
@@ -312,8 +313,9 @@ void Mega::actuate()
                     pompeG.suck();
                     brasDroit.set(Retracted);
                     brasGauche.set(Retracted);
-                    elevator.aim=AIMTakeOneFloor;
-                    if(elevator.goodenough())
+                    if (timerDelay(0.5))
+                        elevator.aim=AIMTakeOneFloor;
+                    if(elevator.goodenough() && timerDelay(0.6))
                     {
                         etapeDeposePaletSol = RemontePaletPourDepose;
                     }
