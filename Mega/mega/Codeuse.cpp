@@ -94,7 +94,6 @@ void handler2()
 
 void handler3() 
  {
-  Serial.println(digitalRead(pins[1][0]));
   if (digitalRead(pins[1][0]) == HIGH) 
   {
     if (digitalRead(pins[1][1]) == HIGH){

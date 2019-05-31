@@ -77,9 +77,9 @@ void Barillet::actuate(float dt)
     dt=0.01;
   }
 //  Serial.print("millis ");Serial.print(millis());
-  Serial.print("la target est : ");Serial.print(target);
-  Serial.print("l'aim est : ");Serial.print(aim);
-  Serial.print("la position est :");Serial.println(codeuseBarillet->pos);
+//  Serial.print("la target est : ");Serial.print(target);
+//  Serial.print("l'aim est : ");Serial.print(aim);
+//  Serial.print("la position est :");Serial.println(codeuseBarillet->pos);
   color->actuate();
   //color->raw();
   //Serial.print("Color (R,B,V,Vide) ");Serial.println(color->getPaletCouleur());
