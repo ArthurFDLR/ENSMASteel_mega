@@ -80,6 +80,7 @@ void Mega::actuate()
         comm.taken();
         break;
     case MessageE::IdleM:
+        Serial.println("START IDLE");
         actionCourante=Idle;
         comm.taken();
         break;
@@ -104,6 +105,7 @@ void Mega::actuate()
         actionCourante = VideDistributeur;
         etapeVideDistributeur=SafetyEtapeVideDistributeur;
         break;
+    }
 
 
 //------------------------------------------------Evitemement--------------------------------
@@ -352,6 +354,7 @@ void Mega::actuate()
                 }
                 break;
             }
+            break;
 
 //--------------------------------------vide distributeur---------------------
 
@@ -368,7 +371,7 @@ void Mega::actuate()
                 }
                 break;
             case(PlacementBarilletDistributeur):
-                if (iPosBarilletVideDistributeur = 0)
+                if (iPosBarilletVideDistributeur == 0)
                 {
                     barillet.goTo(barillet.Poscellule3);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
@@ -378,7 +381,7 @@ void Mega::actuate()
                     }
                 }
 
-                else if (iPosBarilletVideDistributeur = 1)
+                else if (iPosBarilletVideDistributeur == 1)
                 {
                     barillet.goTo(barillet.Poscellule1);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
@@ -387,7 +390,7 @@ void Mega::actuate()
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
                 }
-                else if (iPosBarilletVideDistributeur = 2)
+                else if (iPosBarilletVideDistributeur == 2)
                 {
                     barillet.goTo(barillet.Poscellule5);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
@@ -396,7 +399,7 @@ void Mega::actuate()
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
                 }
-                else if (iPosBarilletVideDistributeur = 3)
+                else if (iPosBarilletVideDistributeur == 3)
                 {
                     barillet.goTo(barillet.Poscellule2);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
@@ -405,7 +408,7 @@ void Mega::actuate()
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
                 }
-                else if (iPosBarilletVideDistributeur = 4)
+                else if (iPosBarilletVideDistributeur == 4)
                 {
                     barillet.goTo(barillet.Poscellule5);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
@@ -415,16 +418,14 @@ void Mega::actuate()
                         sent=false;     //IMPORTANT
                     }
                 }
+                break;
             case(RecupDistributeur):
                 pompeD.suck();
                 pompeG.suck();
                 elevator.aim=AIMDistribLevel;
-                if(elevator.goodenough() && !sent)
-                {
-                    comm.send(MessageE::Ok);
-                }
                 if(elevator.goodenough() && comm.lastMessage==MessageE::Ok)
                 {
+                    comm.taken();
                     etapeVideDistributeur = RemonteVideDistributeur;
                 }
                 break;
@@ -469,9 +470,9 @@ void Mega::actuate()
 //    Serial.print("amp pompe Gauche ");pompeG.isSucked();Serial.print("\t");
 //    Serial.print("amp pompe Droite ");pompeD.isSucked();Serial.println("\t");
 
-        }
     }
 }
+
 
 
 void Mega::init()
