@@ -1,6 +1,6 @@
 #ifndef CONSTANTS
 #define CONSTANTS
-#define ACCBARILLETSTD 4.0
+#define ACCBARILLETSTD 3.0
 
 #define STATE
 //---------------------------------- PINS&Servo   --------------------------------
@@ -31,16 +31,16 @@
 #define DOIGT_DROIT_EXTENDED  1280         //caché
 
 #define PINCE_GAUCHE_PIN 7
-#define PINCE_GAUCHE_RETRACTED 2290         //pince cachée
-#define PINCE_GAUCHE_HALF_RETRACTED 1625    //Capture palet
+#define PINCE_GAUCHE_RETRACTED 2270         //pince cachée
+#define PINCE_GAUCHE_HALF_RETRACTED 1550    //Capture palet
 #define PINCE_GAUCHE_HALF_EXTENDED 950    //Entonnoire
-#define PINCE_GAUCHE_EXTENDED 600           //Depart
+#define PINCE_GAUCHE_EXTENDED 650           //Depart
 
 #define PINCE_DROITE_PIN 6
-#define PINCE_DROITE_RETRACTED 700          //Pince cachée
-#define PINCE_DROITE_HALF_RETRACTED 1320    //Capture palet
+#define PINCE_DROITE_RETRACTED 780          //Pince cachée
+#define PINCE_DROITE_HALF_RETRACTED 1340    //Capture palet
 #define PINCE_DROITE_HALF_EXTENDED 1950     //Entonnoire
-#define PINCE_DROITE_EXTENDED 2400          //Depart
+#define PINCE_DROITE_EXTENDED 2300          //Depart
 
 #define MILLIS_CLEAR 250
 
@@ -80,7 +80,7 @@
 
 #define BARILLET_PIN_CONTACTEUR       22
 #define BARILLET_PIN_CODEUSE_A        24
-#define BARILLET_PIN_CODEUSE_B        19
+#define BARILLET_PIN_CODEUSE_B        19 
 #define BARILLET_PIN_MOTEUR_PWR       8
 #define BARILLET_PIN_MOTEUR_SENS      43
 #define BARILLET_PIN_MOTEUR_BRAKE     41

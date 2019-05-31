@@ -77,8 +77,9 @@ void handler2()
  {
   if (digitalRead(pins[1][0]) == HIGH) 
   {
-    if (digitalRead(pins[1][1]) == HIGH)
+    if (digitalRead(pins[1][1]) == HIGH){
       ticksTab[1] = ticksTab[1] + 1;
+    }
     else
       ticksTab[1] = ticksTab[1] - 1;
   }
@@ -93,10 +94,13 @@ void handler2()
 
 void handler3() 
  {
+  Serial.println(digitalRead(pins[1][0]));
   if (digitalRead(pins[1][0]) == HIGH) 
   {
-    if (digitalRead(pins[1][1]) == HIGH)
+    if (digitalRead(pins[1][1]) == HIGH){
       ticksTab[1] = ticksTab[1] - 1;
+      
+    }
     else
       ticksTab[1] = ticksTab[1] + 1;
   }
@@ -114,6 +118,8 @@ Codeuse::Codeuse(bool needNormalize,uint8_t pin1,uint8_t pin2,float tickToPos)
   this->needNormalize=needNormalize;
   this->pin1=pin1;
   this->pin2=pin2;
+//  pinMode(pin1,INPUT_PULLUP);
+//  pinMode(pin2,INPUT_PULLUP);
   this->ID=nextIdToGive;
   nextIdToGive++;
   pins[ID][0]=pin1;

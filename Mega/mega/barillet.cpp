@@ -77,9 +77,9 @@ void Barillet::actuate(float dt)
     dt=0.01;
   }
 //  Serial.print("millis ");Serial.print(millis());
-//  Serial.print("la target est : ");Serial.print(target);
-//  Serial.print("l'aim est : ");Serial.print(aim);
-//  Serial.print("la position est :");Serial.println(codeuseBarillet->pos);
+  Serial.print("la target est : ");Serial.print(target);
+  Serial.print("l'aim est : ");Serial.print(aim);
+  Serial.print("la position est :");Serial.println(codeuseBarillet->pos);
   color->actuate();
   //color->raw();
   //Serial.print("Color (R,B,V,Vide) ");Serial.println(color->getPaletCouleur());
@@ -154,17 +154,17 @@ bool Barillet::init()
 void Barillet::goTo(float angle)
 {
     angle=normalizeBarillet(angle);
-    angle=codeuseBarillet->pos + normalizeBarillet(angle - codeuseBarillet->pos);
-    if (angle!=target)
+    angle=normalizeBarillet(codeuseBarillet->pos + normalizeBarillet(angle - codeuseBarillet->pos));
+     if(angle!=target)
     {
       if (normalizeBarillet(angle-codeuseBarillet->pos)>0)
         accBarillet=ACCBARILLETSTD;
       else
-        accBarillet=-ACCBARILLETSTD;
+        accBarillet=-ACCBARILLETSTD; 
       this->aim=codeuseBarillet->pos;
       this->dAim=0.0;
       tStartGoto=millis()/1000.0;
-      tFinGoto=tStartGoto + sqrt(4.0*abs(normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD);
+      tFinGoto=tStartGoto + sqrt(abs(4.0*normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD);
       tInversion=(tFinGoto+tStartGoto)/2.0;
       target=angle;
     }
@@ -182,7 +182,7 @@ void Barillet::goToDelta(float angle)
       this->aim=codeuseBarillet->pos;
       this->dAim=0.0;
       tStartGoto=millis()/1000.0;
-      tFinGoto=tStartGoto + sqrt(4.0*abs(normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD);
+      tFinGoto=tStartGoto + sqrt(abs(4.0*(normalizeBarillet(angle-codeuseBarillet->pos))/ACCBARILLETSTD));
       tInversion=(tFinGoto+tStartGoto)/2.0;
       target=angle;
     }
