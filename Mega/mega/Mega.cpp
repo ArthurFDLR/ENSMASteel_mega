@@ -374,11 +374,12 @@ void Mega::actuate()
           {
             case (SafetyEtapeVideDistributeur):
               elevator.aim = AIMAboveBarel;
-              if (elevator.goodenough() )
+              if (elevator.goodenough())
               {
                 etapeVideDistributeur = PlacementBarilletDistributeur;
-                brasDroit.set(Extended);
-                brasGauche.set(Extended);
+                brasDroit.set(ServoPosition::HalfExtended);
+                brasGauche.set(ServoPosition::HalfExtended);
+                startTimer();
               }
               break;
             case (PlacementBarilletDistributeur):
@@ -428,12 +429,13 @@ void Mega::actuate()
                   etapeVideDistributeur = (RecupDistributeur) ;
                 }
               }
+              break;
             case (RecupDistributeur):
               pompeD.suck();
               pompeG.suck();
               elevator.aim = AIMDistribLevel;
 
-              
+
               if (elevator.goodenough() && comm.lastMessage == MessageE::Ok)
               {
                 comm.taken();
@@ -471,7 +473,7 @@ void Mega::actuate()
               break;
           }
           break;//Fin Vide distributeur
-      
+
             //--------------------------------------------------Depose accelero-------------------------------------
             case (DeposePaletAccelerateur):
               switch (etapeDeposePaletAccelerateur)
@@ -529,7 +531,7 @@ void Mega::actuate()
                     startTimer();
                   }
                   break;
-                case (PompeOffDeposePaletAccelerateur): 
+                case (PompeOffDeposePaletAccelerateur):
                     pompeD.stop();
                     pompeG.stop();
                     if (timerDelay(1.)){
@@ -554,7 +556,7 @@ void Mega::actuate()
                   break;
               }
            break;//-------------------------fin depose accelerateur
-          
+
 
 // ------------------------------------------------------deposeBleuBalance-------------------
          case(DeposeBleuBalance):
@@ -599,9 +601,9 @@ void Mega::actuate()
                   if (elevator.goodenough())
                   {
                     etapeDeposeBleuBalance = RemonteElevateurPourDeposeBalance;
-                  }   
+                  }
                   break;
-                  
+
                   case(RemonteElevateurPourDeposeBalance):
                                    elevator.aim = AIMAboveBarel;
                   if (elevator.goodenough())
@@ -623,10 +625,10 @@ void Mega::actuate()
                   break;
               }
               break;//fin depose palet Bleu
-              
+
               }//fin ActionCourante
-          
- 
+
+
 
           //    Serial.print("AVG ");Serial.print(sharpAVG.raw());Serial.print("\t");
           //    Serial.print("AVD ");Serial.print(sharpAVD.raw());Serial.print("\t");
@@ -638,7 +640,7 @@ void Mega::actuate()
           //    Serial.print("amp pompe Droite ");pompeD.isSucked();Serial.println("\t");
 
       }
-  
+
 
 
 

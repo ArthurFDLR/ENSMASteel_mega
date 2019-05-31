@@ -9,14 +9,14 @@
 #define BRAS_GAUCHE_PIN 3
 #define BRAS_GAUCHE_RETRACTED 2300          //Vertical
 #define BRAS_GAUCHE_HALF_RETRACTED 1500     //OSEF
-#define BRAS_GAUCHE_HALF_EXTENDED 1500      //OSEF
-#define BRAS_GAUCHE_EXTENDED 1330           //Horizontal
+#define BRAS_GAUCHE_HALF_EXTENDED 1450      //OSEF
+#define BRAS_GAUCHE_EXTENDED 1330           //Horizontal  //1330
 
 #define BRAS_DROIT_PIN 2
 #define BRAS_DROIT_RETRACTED 1230           //Vertical
 #define BRAS_DROIT_HALF_RETRACTED 1500      //Osef
-#define BRAS_DROIT_HALF_EXTENDED 1500       //OSEF
-#define BRAS_DROIT_EXTENDED 2250            //Horizontal
+#define BRAS_DROIT_HALF_EXTENDED 2120       //OSEF
+#define BRAS_DROIT_EXTENDED 2250             //Horizontal //2250
 
 #define DOIGT_GAUCHE_PIN 5
 #define DOIGT_GAUCHE_RETRACTED 1190         //Bloquage palet
@@ -114,7 +114,7 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 #define AIMDepositeTwoFloor           0.107
 #define AIMDepositThreeFloor          0.13
 #define AIMAboveBarel                 0.155
-#define AIMDistribLevel               0.005
+#define AIMDistribLevel               0.02
 #define AIMTakeOneFloor               0.0775
 #define AIMTakeTwoFloor               0.1025
 #define AIMTakeThreeFloor             0.1275
@@ -133,7 +133,7 @@ enum ElevatorStateE
 
 // --------------------------------- Messages ---------------------------------
 
-#define NB_MESSAGES 26
+#define NB_MESSAGES 27
 enum MessageE
 {
     Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done,

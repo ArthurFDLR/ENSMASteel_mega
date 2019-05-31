@@ -55,6 +55,7 @@ bool Elevator::init()
   {
     codeuseElevator->reset();
     aim=AIMAboveBarel;
+    //aim=AIMDistribLevel;
     return true;
   }
 

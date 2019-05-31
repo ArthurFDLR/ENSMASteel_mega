@@ -17,7 +17,7 @@ Pompe::Pompe()
 
 void Pompe::suck()
 {
-    moteur->order=signe*170;
+    moteur->order=signe*130;
     moteur->actuate();
 }
 
