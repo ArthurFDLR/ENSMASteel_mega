@@ -40,6 +40,7 @@ public:
 
     int iPosBarillet=1;
     int iPosBarilletVideDistributeur=0;
+    bool sent=false;
     uint32_t millisInit,millisActu;
 
     void actuate();

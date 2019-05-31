@@ -74,203 +74,204 @@ void Mega::actuate()
         etapeChaos= PrepChaos;
         comm.taken();
         break;
-     case MessageE::Start_Goldonium:
+    case MessageE::Start_Goldonium:
         actionCourante=RecupGoldonium;
         etapeRecupGoldonium=Safety;
         comm.taken();
-     break;
-     case MessageE::IdleM:
+        break;
+    case MessageE::IdleM:
         actionCourante=Idle;
         comm.taken();
-     break;
+        break;
 
-     case MessageE::Depose_Goldonium:
+    case MessageE::Depose_Goldonium:
         actionCourante=DeposeGoldonium;
         etapeRecupGoldonium=Safety;
         comm.taken();
-     break;
+        break;
 
-       case MessageE::PoussePaletBleuAccel:
+    case MessageE::PoussePaletBleuAccel:
         actionCourante=PoussePaletBleu;
         etapePaletBleu=SafetyPal;
         comm.taken();
-     break;
-     case MessageE::DeposePaletSolM:
+        break;
+    case MessageE::DeposePaletSolM:
         actionCourante=DeposePaletSolA;
         etapeDeposePaletSol=SafetyEtapeDeposePaletSol;
         comm.taken();
-     break;
-     case MessageE::VideDistributeurM:
-          actionCourante = VideDistributeur;
-          etapeVideDistributeur=SafetyEtapeVideDistributeur;
-     break;
+        break;
+    case MessageE::VideDistributeurM:
+        actionCourante = VideDistributeur;
+        etapeVideDistributeur=SafetyEtapeVideDistributeur;
+        break;
 
 
 //------------------------------------------------Evitemement--------------------------------
-    if(comm.anticol==AnticolE::Front)
-    {
-        if(sharpAVD.getState()==Alerte || sharpAVG.getState()==Alerte)
+        if(comm.anticol==AnticolE::Front)
         {
-            if(!evitting)
-                comm.send(Evitemment);
-            evitting=true;
-#ifdef STATE
-            Serial.println("Evitemment avant");
-#endif // STATE
-        }
-        else
-        {
-            if (evitting)
+            if(sharpAVD.getState()==Alerte || sharpAVG.getState()==Alerte)
             {
-                comm.send(Evitemment_Clear);
+                if(!evitting)
+                    comm.send(Evitemment);
+                evitting=true;
 #ifdef STATE
-                Serial.println("Fin evitemment");
+                Serial.println("Evitemment avant");
 #endif // STATE
-                evitting=false;
             }
-
-        }
-    }
-
-    if(comm.anticol==AnticolE::Back)
-    {
-        if(sharpARD.getState()==Alerte || sharpARG.getState()==Alerte)
-        {
-            if(!evitting)
-                comm.send(Evitemment);
-            evitting=true;
-#ifdef STATE
-            Serial.println("Evitemment Arriere");
-#endif // STATE
-        }
-        else
-        {
-            if (evitting)
+            else
             {
-                comm.send(Evitemment_Clear);
+                if (evitting)
+                {
+                    comm.send(Evitemment_Clear);
 #ifdef STATE
-                Serial.println("Fin evitemment");
+                    Serial.println("Fin evitemment");
 #endif // STATE
-                evitting=false;
+                    evitting=false;
+                }
+
             }
         }
-    }
 
-    if(evitting && comm.anticol==AnticolE::No)
-    {
+        if(comm.anticol==AnticolE::Back)
+        {
+            if(sharpARD.getState()==Alerte || sharpARG.getState()==Alerte)
+            {
+                if(!evitting)
+                    comm.send(Evitemment);
+                evitting=true;
 #ifdef STATE
-        Serial.print("Fin evitemment");
+                Serial.println("Evitemment Arriere");
 #endif // STATE
-        comm.send(Evitemment_Clear);
-        evitting=false;
-    }
+            }
+            else
+            {
+                if (evitting)
+                {
+                    comm.send(Evitemment_Clear);
+#ifdef STATE
+                    Serial.println("Fin evitemment");
+#endif // STATE
+                    evitting=false;
+                }
+            }
+        }
+
+        if(evitting && comm.anticol==AnticolE::No)
+        {
+#ifdef STATE
+            Serial.print("Fin evitemment");
+#endif // STATE
+            comm.send(Evitemment_Clear);
+            evitting=false;
+        }
 
 //--------------------------------------------------doigt bloc palet-------------------------
 
-    if(sharpPaletD.getState()== Proximity && actionCourante==actionCouranteE::Chaos)
-    {
-        doigtDroit.set(Retracted);
-    }
-    else
-    {
-        doigtDroit.set(Extended);
-    }
-    if(sharpPaletG.getState()== Proximity && actionCourante==actionCouranteE::Chaos )
-    {
-        doigtGauche.set(Retracted);
-    }
-    else
-    {
-        doigtGauche.set(Extended);
-    }
+        if(sharpPaletD.getState()== Proximity && actionCourante==actionCouranteE::Chaos)
+        {
+            doigtDroit.set(Retracted);
+        }
+        else
+        {
+            doigtDroit.set(Extended);
+        }
+        if(sharpPaletG.getState()== Proximity && actionCourante==actionCouranteE::Chaos )
+        {
+            doigtGauche.set(Retracted);
+        }
+        else
+        {
+            doigtGauche.set(Extended);
+        }
 
 
 //--------------------------------------------------Sous actions------------------------
-    switch(actionCourante)
-    {
-    case (Chaos):
-        switch(etapeChaos)
+        switch(actionCourante)
         {
-        case (PrepChaos):
-            pompeD.stop();
-            pompeG.stop();
-            brasDroit.set(Retracted);
-            brasGauche.set(Retracted);
-            elevator.aim=AIMAboveBarel;
-            if (elevator.goodenough() && (sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity))
+        case (Chaos):
+            switch(etapeChaos)
             {
-                etapeChaos= DescentSouffletSol;
-            }
-            break;
-        case (DescentSouffletSol):
-            pompeD.suck();
-            pompeG.suck();
-            elevator.aim=AIMTakeOnFloor;
-            if (elevator.goodenough() ) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
-            {
-                etapeChaos = RemontePalet;
-            }
-            //contremesure descendre plus bas mais peu se faire indéfiniment, on fait confiance aux pompes
-            break;
-        case (RemontePalet):
-            elevator.aim=AIMAboveFinger;
-            if (elevator.goodenough())
-            {
-                etapeChaos = DeposeOneFloor;
-            }
-            break;
-        case (DeposeOneFloor):
-            elevator.aim=AIMDepositOneFloor;
-            if(elevator.goodenough())
-            {
-                etapeChaos = DeposeRemonte;
-            }
-            break;
-        case(DeposeRemonte):
-            pompeD.stop();
-            pompeG.stop();
-            elevator.aim=AIMAboveBarel;
-            if(elevator.goodenough())
-            {
-                etapeChaos = TourneBarillet;
-            }
-            break;
-        case (TourneBarillet):
-            //barillet.goToDelta(2.0*iPosBarillet*BARILLET_AngleToNext);
-            barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
-            if(barillet.goodenough())
-            {
-                iPosBarillet++;
-                etapeChaos = PrepChaos;
-                if (iPosBarillet==4)
+            case (PrepChaos):
+                pompeD.stop();
+                pompeG.stop();
+                brasDroit.set(Retracted);
+                brasGauche.set(Retracted);
+                elevator.aim=AIMAboveBarel;
+                if (elevator.goodenough() && (sharpPaletD.getState()== Proximity and sharpPaletG.getState()==Proximity))
                 {
-                    actionCourante=Idle;
-                    barillet.RedefinitionPosBleuium();
+                    etapeChaos= DescentSouffletSol;
                 }
+                break;
+            case (DescentSouffletSol):
+                pompeD.suck();
+                pompeG.suck();
+                elevator.aim=AIMTakeOnFloor;
+                if (elevator.goodenough() ) // and AmperemetrePompeDroit.getState()==Alerte and AmperemetrePompeGauche.getState()==Alerte){
+                {
+                    etapeChaos = RemontePalet;
+                }
+                //contremesure descendre plus bas mais peu se faire indéfiniment, on fait confiance aux pompes
+                break;
+            case (RemontePalet):
+                elevator.aim=AIMAboveFinger;
+                if (elevator.goodenough())
+                {
+                    etapeChaos = DeposeOneFloor;
+                }
+                break;
+            case (DeposeOneFloor):
+                elevator.aim=AIMDepositOneFloor;
+                if(elevator.goodenough())
+                {
+                    etapeChaos = DeposeRemonte;
+                }
+                break;
+            case(DeposeRemonte):
+                pompeD.stop();
+                pompeG.stop();
+                elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough())
+                {
+                    etapeChaos = TourneBarillet;
+                }
+                break;
+            case (TourneBarillet):
+                //barillet.goToDelta(2.0*iPosBarillet*BARILLET_AngleToNext);
+                barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
+                if(barillet.goodenough())
+                {
+                    iPosBarillet++;
+                    etapeChaos = PrepChaos;
+                    if (iPosBarillet==4)
+                    {
+                        actionCourante=Idle;
+                        barillet.RedefinitionPosBleuium();
+                    }
+                }
+                break;
             }
-            break;
-        }
-        break; //Fin Chao
- //---------------------------------------action recup goldo----------------------------
+            break; //Fin Chao
+//---------------------------------------action recup goldo----------------------------
         case (RecupGoldonium):
-          switch(etapeRecupGoldonium){
-           case(Safety):
-               elevator.aim=AIMAboveBarel;
+            switch(etapeRecupGoldonium)
+            {
+            case(Safety):
+                elevator.aim=AIMAboveBarel;
                 if(elevator.goodenough() )
                 {
                     etapeRecupGoldonium = Recup;
                 }
-           break;
+                break;
             case(Recup):
-              pompeD.suck();
-              pompeG.suck();
-              brasDroit.set(Extended);
-              brasGauche.set(Extended);
-              elevator.aim=AIMBlueiumAcceleratorLevel;
-            break;
-          }
-          break; //Fin recupGOld
- //---------------------------------------action deposegoldo goldo----------------------------
+                pompeD.suck();
+                pompeG.suck();
+                brasDroit.set(Extended);
+                brasGauche.set(Extended);
+                elevator.aim=AIMBlueiumAcceleratorLevel;
+                break;
+            }
+            break; //Fin recupGOld
+//---------------------------------------action deposegoldo goldo----------------------------
         case(DeposeGoldonium):
             elevator.aim=AIMBalanceLevel;
             if(elevator.goodenough())
@@ -281,28 +282,30 @@ void Mega::actuate()
             break;
 //-----------------------------------------On pousse le palet bleu--------------------------------
         case(PoussePaletBleu):
-            switch(etapePaletBleu){
-                case(SafetyPal):
-                    elevator.aim=AIMAboveBarel;
-                    if(elevator.goodenough())
-                    {
-                        etapePaletBleu = Pousse;
-                    }
+            switch(etapePaletBleu)
+            {
+            case(SafetyPal):
+                elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough())
+                {
+                    etapePaletBleu = Pousse;
+                }
                 break;
-                case(Pousse):
-                    brasDroit.set(Extended);
-                    brasGauche.set(Extended);
-                    elevator.aim=AIMInAccelerator -0.02;
+            case(Pousse):
+                brasDroit.set(Extended);
+                brasGauche.set(Extended);
+                elevator.aim=AIMInAccelerator -0.02;
                 break;
             }
-        break;
- //------------------------------------depose sol-------------------------
+            break;
+//------------------------------------depose sol-------------------------
         case(Idle):
             //Se toucher la nouille
-        break;
+            break;
         case(DeposePaletSolA):
-           switch(etapeDeposePaletSol){
-                case(SafetyEtapeDeposePaletSol):
+            switch(etapeDeposePaletSol)
+            {
+            case(SafetyEtapeDeposePaletSol):
                 elevator.aim=AIMAboveBarel;
                 if(elevator.goodenough())
                 {
@@ -310,134 +313,153 @@ void Mega::actuate()
                     startTimer();
                 }
                 break;
-                case (AttrapePaletBarillet):
-                    pompeD.suck();
-                    pompeG.suck();
-                    brasDroit.set(Retracted);
-                    brasGauche.set(Retracted);
-                    if (timerDelay(0.5))
-                        elevator.aim=AIMTakeOneFloor;
-                    if(elevator.goodenough() && timerDelay(0.6))
-                    {
-                        etapeDeposePaletSol = RemontePaletPourDepose;
-                    }
-                    break;
-                case(RemontePaletPourDepose):
-                    elevator.aim=AIMAboveBarel;
-                    if(elevator.goodenough())
-                    {
-                        etapeDeposePaletSol = PretADeposeSol;
-                        startTimer();
-                    }
-                break;
-                case(PretADeposeSol):
-                    brasDroit.set(Extended);
-                    brasGauche.set(Extended);
-                    if(elevator.goodenough() && timerDelay(0.5))
-                    {
-                        pompeD.stop();
-                        pompeG.stop();
-                        etapeDeposePaletSol = TourneBarilletPourDeposeSol;
-                    }
-                break;
-                case(TourneBarilletPourDeposeSol):
-                    barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
-                    if(barillet.goodenough()and iPosBarillet<6)
-                    {
-                        iPosBarillet++;
-                        etapeDeposePaletSol = (SafetyEtapeDeposePaletSol) ;
-                    }
-                break;
+            case (AttrapePaletBarillet):
+                pompeD.suck();
+                pompeG.suck();
+                brasDroit.set(Retracted);
+                brasGauche.set(Retracted);
+                if (timerDelay(0.5))
+                    elevator.aim=AIMTakeOneFloor;
+                if(elevator.goodenough() && timerDelay(0.6))
+                {
+                    etapeDeposePaletSol = RemontePaletPourDepose;
                 }
- 
+                break;
+            case(RemontePaletPourDepose):
+                elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough())
+                {
+                    etapeDeposePaletSol = PretADeposeSol;
+                    startTimer();
+                }
+                break;
+            case(PretADeposeSol):
+                brasDroit.set(Extended);
+                brasGauche.set(Extended);
+                if(elevator.goodenough() && timerDelay(0.5))
+                {
+                    pompeD.stop();
+                    pompeG.stop();
+                    etapeDeposePaletSol = TourneBarilletPourDeposeSol;
+                }
+                break;
+            case(TourneBarilletPourDeposeSol):
+                barillet.goTo(2.0*iPosBarillet*BARILLET_AngleToNext);
+                if(barillet.goodenough()and iPosBarillet<6)
+                {
+                    iPosBarillet++;
+                    etapeDeposePaletSol = (SafetyEtapeDeposePaletSol) ;
+                }
+                break;
+            }
+
 //--------------------------------------vide distributeur---------------------
 
         case (VideDistributeur):
-          switch(etapeVideDistributeur){
-           case(SafetyEtapeVideDistributeur):
-               elevator.aim=AIMAboveBarel;
+            switch(etapeVideDistributeur)
+            {
+            case(SafetyEtapeVideDistributeur):
+                elevator.aim=AIMAboveBarel;
                 if(elevator.goodenough() )
                 {
                     etapeVideDistributeur = PlacementBarilletDistributeur;
+                    brasDroit.set(Extended);
+                    brasGauche.set(Extended);
                 }
-           break;
+                break;
             case(PlacementBarilletDistributeur):
-                if (iPosBarilletVideDistributeur = 0){
+                if (iPosBarilletVideDistributeur = 0)
+                {
                     barillet.goTo(barillet.Poscellule3);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
                     {
                         iPosBarilletVideDistributeur++;
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
-          }
+                }
 
-              if (iPosBarilletVideDistributeur = 1){
+                else if (iPosBarilletVideDistributeur = 1)
+                {
                     barillet.goTo(barillet.Poscellule1);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
                     {
                         iPosBarilletVideDistributeur++;
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
-          }
-                    if (iPosBarilletVideDistributeur = 2){
+                }
+                else if (iPosBarilletVideDistributeur = 2)
+                {
                     barillet.goTo(barillet.Poscellule5);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
                     {
                         iPosBarilletVideDistributeur++;
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
-          }
-                       if (iPosBarilletVideDistributeur = 3){
+                }
+                else if (iPosBarilletVideDistributeur = 3)
+                {
                     barillet.goTo(barillet.Poscellule2);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
                     {
                         iPosBarilletVideDistributeur++;
                         etapeVideDistributeur = (RecupDistributeur) ;
                     }
-          }
-                                 if (iPosBarilletVideDistributeur = 4){
+                }
+                else if (iPosBarilletVideDistributeur = 4)
+                {
                     barillet.goTo(barillet.Poscellule5);
                     if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
                     {
                         iPosBarilletVideDistributeur++;
                         etapeVideDistributeur = (RecupDistributeur) ;
+                        sent=false;     //IMPORTANT
                     }
-          }
+                }
             case(RecupDistributeur):
-              pompeD.suck();
-              pompeG.suck();
-              brasDroit.set(Retracted);
-              brasGauche.set(Retracted);
-              elevator.aim=AIMDistribLevel;
-              if(elevator.goodenough() and (AmperemetrePompeDroit.getState()==Alerte or AmperemetrePompeGauche.getState()==Alerte))
+                pompeD.suck();
+                pompeG.suck();
+                elevator.aim=AIMDistribLevel;
+                if(elevator.goodenough() && !sent)
+                {
+                    comm.send(MessageE::Ok);
+                }
+                if(elevator.goodenough() && comm.lastMessage==MessageE::Ok)
                 {
                     etapeVideDistributeur = RemonteVideDistributeur;
                 }
-            break;
+                break;
             case(RemonteVideDistributeur):
-               elevator.aim=AIMAboveBarel;
+                elevator.aim=AIMAboveBarel;
                 if(elevator.goodenough() )
                 {
-                    etapeVideDistributeur =DescentVideDistributeur ;
+                    etapeVideDistributeur = DescentVideDistributeur ;
+                    startTimer();
                 }
-           break;
-           case(DescentVideDistributeur):
-               if (iPosBarilletVideDistributeur<3){
-                elevator.aim=AIMDepositeTwoFloor;
-               }
-               else{
-                elevator.aim=AIMDepositThreeFloor ;
-               }
-                if(elevator.goodenough() )
+                break;
+            case(DescentVideDistributeur):
+                brasDroit.set(Retracted);
+                brasGauche.set(Retracted);
+                if (timerDelay(0.5))
+                {
+                    if (iPosBarilletVideDistributeur<3)
+                    {
+                        elevator.aim=AIMDepositeTwoFloor;
+                    }
+                    else
+                    {
+                        elevator.aim=AIMDepositThreeFloor ;
+                    }
+                }
+                if(elevator.goodenough() && timerDelay(0.6))
                 {
                     pompeG.stop();
                     pompeD.stop();
                     etapeVideDistributeur = SafetyEtapeVideDistributeur ;
                 }
-           break;
-          }     
-       break ;
-    
+                break;
+            }
+            break ;
+
 //    Serial.print("AVG ");Serial.print(sharpAVG.raw());Serial.print("\t");
 //    Serial.print("AVD ");Serial.print(sharpAVD.raw());Serial.print("\t");
 //    Serial.print("ARG ");Serial.print(sharpARG.raw());Serial.print("\t");
@@ -447,7 +469,7 @@ void Mega::actuate()
 //    Serial.print("amp pompe Gauche ");pompeG.isSucked();Serial.print("\t");
 //    Serial.print("amp pompe Droite ");pompeD.isSucked();Serial.println("\t");
 
-    }
+        }
     }
 }
 
