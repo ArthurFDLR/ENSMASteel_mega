@@ -11,12 +11,15 @@
 #include "Elevator.h"
 #include "Barillet.h"
 #include "Comm.h"
-enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePaletBleu,DeposePaletSolA,VideDistributeur};
+enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePaletBleu,DeposePaletSolA,VideDistributeur,DeposePaletAccelerateur,DeposeBleuBalance};
 enum etapeChaosE {PrepChaos,DescentSouffletSol,RemontePalet,DeposeOneFloor,DeposeRemonte,TourneBarillet};
-enum etapeRecupGoldoniumE {Safety,Recup};
+enum etapeRecupGoldoniumE {Safety,Recup,ElevateurniveauGoldo};
 enum etapePaletBleuE {SafetyPal,Pousse};
 enum etapeDeposePaletSolE {SafetyEtapeDeposePaletSol,PretADeposeSol,AttrapePaletBarillet,RemontePaletPourDepose,TourneBarilletPourDeposeSol};
 enum etapeVideDistributeurE {SafetyEtapeVideDistributeur,PlacementBarilletDistributeur,RecupDistributeur,RemonteVideDistributeur,DescentVideDistributeur};
+enum etapeDeposeAccelerateurE{SafetyDeposePaletAccelerateur, AttrapePaletBarilletAccelerateur, RemontePaletPourDeposeAccelerateur,
+PretADeposePaletAccelerateur,DescentElevateurDeposePaletAccelerateur,PompeOffDeposePaletAccelerateur,RemonteElevateurPourBarriletDeposePaletAccelerateur,TourneBarilletPourDeposeAccelerateur};
+enum etapeDeposeBleuBalanceE {SafetyetapeDeposeBleuBalance,SetBarilletDeposeBleu,DescentElevateurDeposeBleu,RemonteElevateurPourDeposeBalance,JettePaletBalance};
 class Mega
 {
 public:
@@ -36,10 +39,15 @@ public:
     etapePaletBleuE etapePaletBleu;
     etapeDeposePaletSolE etapeDeposePaletSol;
     etapeVideDistributeurE etapeVideDistributeur;
+    etapeDeposeAccelerateurE etapeDeposePaletAccelerateur;
+    etapeDeposeBleuBalanceE etapeDeposeBleuBalance;
 
 
     int iPosBarillet=1;
     int iPosBarilletVideDistributeur=0;
+    int iPosBarilletDeposePaletAccelerateur=0;
+    int iPosDeposeBleuBalance=3;
+    
     bool sent=false;
     uint32_t millisInit,millisActu;
 
