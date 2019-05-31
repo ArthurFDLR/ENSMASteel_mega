@@ -80,16 +80,9 @@ void Mega::actuate()
       comm.taken();
       break;
     case MessageE::IdleM:
-<<<<<<< HEAD
       actionCourante = Idle;
       comm.taken();
       break;
-=======
-        Serial.println("START IDLE");
-        actionCourante=Idle;
-        comm.taken();
-        break;
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
 
     case MessageE::Depose_Goldonium:
       actionCourante = DeposeGoldonium;
@@ -108,7 +101,6 @@ void Mega::actuate()
       comm.taken();
       break;
     case MessageE::VideDistributeurM:
-<<<<<<< HEAD
       actionCourante = VideDistributeur;
       etapeVideDistributeur = SafetyEtapeVideDistributeur;
       break;
@@ -125,16 +117,6 @@ void Mega::actuate()
       if (comm.anticol == AnticolE::Front)
       {
         if (sharpAVD.getState() == Alerte || sharpAVG.getState() == Alerte)
-=======
-        actionCourante = VideDistributeur;
-        etapeVideDistributeur=SafetyEtapeVideDistributeur;
-        break;
-    }
-
-
-//------------------------------------------------Evitemement--------------------------------
-        if(comm.anticol==AnticolE::Front)
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
         {
           if (!evitting)
             comm.send(Evitemment);
@@ -400,63 +382,58 @@ void Mega::actuate()
               }
               break;
             case (PlacementBarilletDistributeur):
-              if (iPosBarilletVideDistributeur = 0)
+              if (iPosBarilletVideDistributeur == 0)
               {
                 barillet.goTo(barillet.Poscellule3);
-                if (barillet.goodenough() and iPosBarilletVideDistributeur < 5)
+                if (barillet.goodenough() and iPosBarilletVideDistributeur < 6)
                 {
                   iPosBarilletVideDistributeur++;
                   etapeVideDistributeur = (RecupDistributeur) ;
                 }
               }
 
-              else if (iPosBarilletVideDistributeur = 1)
+              else if (iPosBarilletVideDistributeur == 1)
               {
                 barillet.goTo(barillet.Poscellule1);
-                if (barillet.goodenough() and iPosBarilletVideDistributeur < 5)
+                if (barillet.goodenough() and iPosBarilletVideDistributeur < 6)
                 {
                   iPosBarilletVideDistributeur++;
                   etapeVideDistributeur = (RecupDistributeur) ;
                 }
               }
-              else if (iPosBarilletVideDistributeur = 2)
+              else if (iPosBarilletVideDistributeur == 2)
               {
                 barillet.goTo(barillet.Poscellule5);
-                if (barillet.goodenough() and iPosBarilletVideDistributeur < 5)
+                if (barillet.goodenough() and iPosBarilletVideDistributeur < 6)
                 {
                   iPosBarilletVideDistributeur++;
                   etapeVideDistributeur = (RecupDistributeur) ;
                 }
               }
-              else if (iPosBarilletVideDistributeur = 3)
+              else if (iPosBarilletVideDistributeur == 3)
               {
                 barillet.goTo(barillet.Poscellule2);
-                if (barillet.goodenough() and iPosBarilletVideDistributeur < 5)
+                if (barillet.goodenough() and iPosBarilletVideDistributeur < 6)
                 {
                   iPosBarilletVideDistributeur++;
                   etapeVideDistributeur = (RecupDistributeur) ;
                 }
               }
-              else if (iPosBarilletVideDistributeur = 4)
+              else if (iPosBarilletVideDistributeur == 4)
               {
                 barillet.goTo(barillet.Poscellule5);
-                if (barillet.goodenough() and iPosBarilletVideDistributeur < 5)
+                if (barillet.goodenough() and iPosBarilletVideDistributeur < 6)
                 {
                   iPosBarilletVideDistributeur++;
                   etapeVideDistributeur = (RecupDistributeur) ;
-                  sent = false;   //IMPORTANT
                 }
-<<<<<<< HEAD
               }
             case (RecupDistributeur):
               pompeD.suck();
               pompeG.suck();
               elevator.aim = AIMDistribLevel;
-              if (elevator.goodenough() && !sent)
-              {
-                comm.send(MessageE::Ok);
-                sent = true;
-              }
+
+              
               if (elevator.goodenough() && comm.lastMessage == MessageE::Ok)
               {
                 comm.taken();
@@ -477,34 +454,13 @@ void Mega::actuate()
               if (timerDelay(0.5))
               {
                 if (iPosBarilletVideDistributeur < 3)
-=======
-                break;
-            }
-            break;
-
-//--------------------------------------vide distributeur---------------------
-
-        case (VideDistributeur):
-            switch(etapeVideDistributeur)
-            {
-            case(SafetyEtapeVideDistributeur):
-                elevator.aim=AIMAboveBarel;
-                if(elevator.goodenough() )
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
                 {
                   elevator.aim = AIMDepositeTwoFloor;
                 }
-<<<<<<< HEAD
                 else
-=======
-                break;
-            case(PlacementBarilletDistributeur):
-                if (iPosBarilletVideDistributeur == 0)
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
                 {
                   elevator.aim = AIMDepositThreeFloor ;
                 }
-<<<<<<< HEAD
               }
               if (elevator.goodenough() && timerDelay(0.6))
               {
@@ -585,62 +541,6 @@ void Mega::actuate()
                   if (elevator.goodenough())
                   {
                     etapeDeposePaletAccelerateur = TourneBarilletPourDeposeAccelerateur;
-=======
-
-                else if (iPosBarilletVideDistributeur == 1)
-                {
-                    barillet.goTo(barillet.Poscellule1);
-                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
-                    {
-                        iPosBarilletVideDistributeur++;
-                        etapeVideDistributeur = (RecupDistributeur) ;
-                    }
-                }
-                else if (iPosBarilletVideDistributeur == 2)
-                {
-                    barillet.goTo(barillet.Poscellule5);
-                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
-                    {
-                        iPosBarilletVideDistributeur++;
-                        etapeVideDistributeur = (RecupDistributeur) ;
-                    }
-                }
-                else if (iPosBarilletVideDistributeur == 3)
-                {
-                    barillet.goTo(barillet.Poscellule2);
-                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
-                    {
-                        iPosBarilletVideDistributeur++;
-                        etapeVideDistributeur = (RecupDistributeur) ;
-                    }
-                }
-                else if (iPosBarilletVideDistributeur == 4)
-                {
-                    barillet.goTo(barillet.Poscellule5);
-                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
-                    {
-                        iPosBarilletVideDistributeur++;
-                        etapeVideDistributeur = (RecupDistributeur) ;
-                        sent=false;     //IMPORTANT
-                    }
-                }
-                break;
-            case(RecupDistributeur):
-                pompeD.suck();
-                pompeG.suck();
-                elevator.aim=AIMDistribLevel;
-                if(elevator.goodenough() && comm.lastMessage==MessageE::Ok)
-                {
-                    comm.taken();
-                    etapeVideDistributeur = RemonteVideDistributeur;
-                }
-                break;
-            case(RemonteVideDistributeur):
-                elevator.aim=AIMAboveBarel;
-                if(elevator.goodenough() )
-                {
-                    etapeVideDistributeur = DescentVideDistributeur ;
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
                     startTimer();
                   }
                   break;
@@ -711,7 +611,7 @@ void Mega::actuate()
                   }
                   break;
                   case(JettePaletBalance):
-                  brasDroit.set(Retracted);
+                  brasDroit.set(Extended);
                   brasGauche.set(Extended);
                   if (timerDelay(0.1)){/////-------------------------------------A regler pour un beau lancé------------
                   pompeG.stop();
@@ -739,12 +639,6 @@ void Mega::actuate()
 
       }
   
-
-<<<<<<< HEAD
-=======
-    }
-}
->>>>>>> e53e639457f782906bc239fe92a107c7afce874d
 
 
 

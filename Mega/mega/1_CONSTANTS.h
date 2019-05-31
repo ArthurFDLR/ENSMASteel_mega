@@ -114,7 +114,7 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 #define AIMDepositeTwoFloor           0.107
 #define AIMDepositThreeFloor          0.13
 #define AIMAboveBarel                 0.155
-#define AIMDistribLevel               (0.175-0.005)
+#define AIMDistribLevel               0.005
 #define AIMTakeOneFloor               0.0775
 #define AIMTakeTwoFloor               0.1025
 #define AIMTakeThreeFloor             0.1275
