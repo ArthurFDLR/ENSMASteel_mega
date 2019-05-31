@@ -218,7 +218,6 @@ bool Barillet::RedefinitionPosBleuium(){
         goTo(Poscellule1 + i*BARILLET_AngleToNext);
         }
       }
-      delay(2);
     }
       if (coteviolet)
       { //si on est du coté violet on met le bleu à droite
@@ -226,7 +225,6 @@ bool Barillet::RedefinitionPosBleuium(){
         while(!goodenough())
         {
           ptrMega->actuate();
-          delay(2);
         }
       }
       else
@@ -235,7 +233,6 @@ bool Barillet::RedefinitionPosBleuium(){
         while(!goodenough())
         {// si on est coté jaune on met le bleu à gauche
           ptrMega->actuate();
-          delay(2);
         }
     }
     codeuseBarillet->reset(); // maitenant le palet est du bon coté et à la bonne position
