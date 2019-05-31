@@ -11,11 +11,12 @@
 #include "Elevator.h"
 #include "Barillet.h"
 #include "Comm.h"
-enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePaletBleu,DeposePaletSolA};
+enum actionCouranteE {Idle,Chaos,Distrib,RecupGoldonium,DeposeGoldonium,PoussePaletBleu,DeposePaletSolA,VideDistributeur};
 enum etapeChaosE {PrepChaos,DescentSouffletSol,RemontePalet,DeposeOneFloor,DeposeRemonte,TourneBarillet};
 enum etapeRecupGoldoniumE {Safety,Recup};
 enum etapePaletBleuE {SafetyPal,Pousse};
 enum etapeDeposePaletSolE {SafetyEtapeDeposePaletSol,PretADeposeSol,AttrapePaletBarillet,RemontePaletPourDepose,TourneBarilletPourDeposeSol};
+enum etapeVideDistributeurE {SafetyEtapeVideDistributeur,PlacementBarilletDistributeur,RecupDistributeur,RemonteVideDistributeur,DescentVideDistributeur};
 class Mega
 {
 public:
@@ -34,9 +35,11 @@ public:
     etapeRecupGoldoniumE etapeRecupGoldonium;
     etapePaletBleuE etapePaletBleu;
     etapeDeposePaletSolE etapeDeposePaletSol;
+    etapeVideDistributeurE etapeVideDistributeur;
 
 
     int iPosBarillet=1;
+    int iPosBarilletVideDistributeur=0;
     uint32_t millisInit,millisActu;
 
     void actuate();
