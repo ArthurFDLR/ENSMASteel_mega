@@ -100,7 +100,10 @@ void Mega::actuate()
         etapeDeposePaletSol=SafetyEtapeDeposePaletSol;
         comm.taken();
      break;
-    }
+     case MessageE::VideDistributeurM:
+          actionCourante = VideDistributeur;
+          etapeVideDistributeur=SafetyEtapeVideDistributeur;
+     break;
 
 
 //------------------------------------------------Evitemement--------------------------------
@@ -342,10 +345,95 @@ void Mega::actuate()
                     }
                 break;
                 }
-        break ;
-    }
+ 
+//--------------------------------------vide distributeur---------------------
 
+        case (VideDistributeur):
+          switch(etapeVideDistributeur){
+           case(SafetyEtapeVideDistributeur):
+               elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough() )
+                {
+                    etapeVideDistributeur = PlacementBarilletDistributeur;
+                }
+           break;
+            case(PlacementBarilletDistributeur):
+                if (iPosBarilletVideDistributeur = 0){
+                    barillet.goTo(barillet.Poscellule3);
+                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
+                    {
+                        iPosBarilletVideDistributeur++;
+                        etapeVideDistributeur = (RecupDistributeur) ;
+                    }
+          }
 
+              if (iPosBarilletVideDistributeur = 1){
+                    barillet.goTo(barillet.Poscellule1);
+                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
+                    {
+                        iPosBarilletVideDistributeur++;
+                        etapeVideDistributeur = (RecupDistributeur) ;
+                    }
+          }
+                    if (iPosBarilletVideDistributeur = 2){
+                    barillet.goTo(barillet.Poscellule5);
+                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
+                    {
+                        iPosBarilletVideDistributeur++;
+                        etapeVideDistributeur = (RecupDistributeur) ;
+                    }
+          }
+                       if (iPosBarilletVideDistributeur = 3){
+                    barillet.goTo(barillet.Poscellule2);
+                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
+                    {
+                        iPosBarilletVideDistributeur++;
+                        etapeVideDistributeur = (RecupDistributeur) ;
+                    }
+          }
+                                 if (iPosBarilletVideDistributeur = 4){
+                    barillet.goTo(barillet.Poscellule5);
+                    if(barillet.goodenough()and iPosBarilletVideDistributeur<5)
+                    {
+                        iPosBarilletVideDistributeur++;
+                        etapeVideDistributeur = (RecupDistributeur) ;
+                    }
+          }
+            case(RecupDistributeur):
+              pompeD.suck();
+              pompeG.suck();
+              brasDroit.set(Retracted);
+              brasGauche.set(Retracted);
+              elevator.aim=AIMDistribLevel;
+              if(elevator.goodenough() and (AmperemetrePompeDroit.getState()==Alerte or AmperemetrePompeGauche.getState()==Alerte))
+                {
+                    etapeVideDistributeur = RemonteVideDistributeur;
+                }
+            break;
+            case(RemonteVideDistributeur):
+               elevator.aim=AIMAboveBarel;
+                if(elevator.goodenough() )
+                {
+                    etapeVideDistributeur =DescentVideDistributeur ;
+                }
+           break;
+           case(DescentVideDistributeur):
+               if (iPosBarilletVideDistributeur<3){
+                elevator.aim=AIMDepositeTwoFloor;
+               }
+               else{
+                elevator.aim=AIMDepositThreeFloor ;
+               }
+                if(elevator.goodenough() )
+                {
+                    pompeG.stop();
+                    pompeD.stop();
+                    etapeVideDistributeur = SafetyEtapeVideDistributeur ;
+                }
+           break;
+          }     
+       break ;
+    
 //    Serial.print("AVG ");Serial.print(sharpAVG.raw());Serial.print("\t");
 //    Serial.print("AVD ");Serial.print(sharpAVD.raw());Serial.print("\t");
 //    Serial.print("ARG ");Serial.print(sharpARG.raw());Serial.print("\t");
@@ -355,6 +443,8 @@ void Mega::actuate()
 //    Serial.print("amp pompe Gauche ");pompeG.isSucked();Serial.print("\t");
 //    Serial.print("amp pompe Droite ");pompeD.isSucked();Serial.println("\t");
 
+    }
+    }
 }
 
 

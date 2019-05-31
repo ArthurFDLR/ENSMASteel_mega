@@ -109,12 +109,12 @@ enum typeFiltreE {PAS_DE_FILTRE,LOWPASS1,LOWPASS2,DELAY};
 #define ELEVATOR_TickToPos            40000 //80000
 #define AIMReadyToTakeOnFloor         0.03 // a determiner exp
 #define AIMTakeOnFloor                0.0055
-#define AIMAboveFinger                0.12
+#define AIMAboveFinger                0.14
 #define AIMDepositOneFloor            0.08
-#define AIMDepositeTwoFloor           0.105
+#define AIMDepositeTwoFloor           0.107
 #define AIMDepositThreeFloor          0.13
 #define AIMAboveBarel                 0.155
-#define AIMDistribLevel               0.05
+#define AIMDistribLevel               0.3
 #define AIMTakeOneFloor               0.0775
 #define AIMTakeTwoFloor               0.1025
 #define AIMTakeThreeFloor             0.1275
@@ -133,11 +133,12 @@ enum ElevatorStateE
 
 // --------------------------------- Messages ---------------------------------
 
-#define NB_MESSAGES 22
+#define NB_MESSAGES 23
 enum MessageE
 {
     Default,Impossible, Tirette, Pince_Retracted,Pince_Half_Retracted,Pince_Half_Extended,Pince_Extended, Evitemment, Ok, Done,
-    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletSolM,IdleM}
+    New_Action, Sync, Evitemment_Clear,Calle,Violet,Jaune,Start_Chaos,Start_Goldonium,Depose_Goldonium,PoussePaletBleuAccel,DeposePaletSolM
+    ,IdleM,VideDistributeurM}
 ;
 
 
